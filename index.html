@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneat Lite - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Container Principal do Login -->
+    <main class="login-container">
+        <!-- Logo e Títulos -->
+        <div class="logo-area">
+            <h1 class="logo-text">K.</h1>
+            <h2 class="brand-name">KONEAT <span>LITE</span></h2>
+            <p class="subtitle">O COMEÇO</p>
+        </div>
+
+        <!-- Formulário de Login -->
+        <form action="passo1.html" method="GET" class="login-form">
+            <div class="input-group">
+                <label for="email">E-mail</label>
+                <div class="input-wrapper">
+                    <span class="icon">✉</span>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail." required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Senha</label>
+                <div class="input-wrapper">
+                    <span class="icon">🔒</span>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha." required>
+                    <span class="toggle-password" id="togglePassword">👁</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                ENTRAR <span>→</span>
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>Ou</span>
+        </div>
+
+        <!-- Botão Google -->
+        <button type="button" class="btn-google">
+            <img src="assets/google-icon.svg" alt="Google" class="google-icon">
+            <span>Entrar com Google</span>
+        </button>
+
+        <!-- Links Úteis -->
+        <footer class="login-footer">
+            <p>Não tem conta? <a href="cadastro.html">Fazer cadastro</a></p>
+            <p>Esqueceu sua senha? <a href="recuperar.html">Recuperar acesso</a></p>
+        </footer>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
