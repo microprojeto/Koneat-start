@@ -109,18 +109,30 @@ body {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.input-wrapper .icon {
+/* Ícones dos Campos (Login) */
+.input-icon {
     position: absolute;
     left: 16px;
-    font-size: 14px;
-    opacity: 0.6;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
 }
 
 .toggle-password {
     position: absolute;
-    right: 16px;
+    right: 14px;
+    background: none;
+    border: none;
     cursor: pointer;
-    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.toggle-password svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* Botão Entrar */
@@ -163,25 +175,39 @@ body {
     font-size: 12px;
 }
 
-/* Botão Google */
+/* Botão Google com Linha Divisória */
 .btn-google {
     width: 100%;
-    padding: 13px;
+    padding: 12px 20px;
     border-radius: 28px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: transparent;
     color: #fff;
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: flex-start;
     cursor: pointer;
 }
 
-.google-icon {
-    width: 18px;
-    height: 18px;
+.google-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 14px;
+}
+
+.google-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    margin-right: 16px;
+}
+
+.google-text {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: 500;
 }
 
 /* Rodapé de Links */
@@ -485,5 +511,4 @@ body.light-theme {
     font-size: 20px;
     font-weight: 400;
     line-height: 1;
-    }
-    
+   }
