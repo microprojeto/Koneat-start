@@ -1,24 +1,7 @@
 /* ==========================================================================
-   1. RESET BÁSICO E ESTILOS COMPARTILHADOS
-   ========================================================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-}
-
-/* ==========================================================================
    2. TEMA ESCURO (LOGIN - index.html)
    ========================================================================== */
-body.dark-theme {
+body {
     background-color: #050505;
     background-image: 
         radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
@@ -114,7 +97,6 @@ body.dark-theme {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Trava rígida para os ícones do Login nunca estourarem */
 .input-wrapper svg,
 svg.input-icon {
     position: absolute;
@@ -245,10 +227,10 @@ svg.eye-icon {
 }
 
 /* ==========================================================================
-   3. TEMA CLARO - TELA ESTILO MOBILE NATIVO (PASSOS / PERFIL)
+   3. TEMA CLARO - TELA DE PERFIL (PASSO1)
    ========================================================================== */
 body.light-theme {
-    background-color: #f2f2f7; /* Fundo cinza claro externo elegante estilo app */
+    background-color: #ffffff;
     background-image: none;
     color: #111111;
     display: flex;
@@ -259,7 +241,6 @@ body.light-theme {
     min-height: 100vh;
 }
 
-/* Container que simula a tela do celular centralizada com largura máxima */
 .app-container {
     width: 100%;
     max-width: 480px;
@@ -269,7 +250,6 @@ body.light-theme {
     position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Header Premium Fino */
@@ -501,7 +481,7 @@ body.light-theme {
 }
 
 /* ==========================================================================
-   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ
+   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - CÍRCULO PROPORCIONAL
    ========================================================================== */
 .bottom-nav {
     position: fixed;
@@ -535,6 +515,7 @@ body.light-theme {
     transition: all 0.2s ease;
 }
 
+/* Ícones da navegação rigorosamente em 18px para ficarem uniformes */
 .nav-icon {
     width: 18px;
     height: 18px;
@@ -546,10 +527,11 @@ body.light-theme {
     stroke: #ffffff;
 }
 
+/* Círculo do Perfil pequeno, proporcional e alinhado (23px) com ícone cinza por dentro */
 .nav-item.profile-circle-active .nav-profile-wrapper {
-    width: 28px;
-    height: 28px;
-    border: 1.5px solid #ffffff;
+    width: 23px;
+    height: 23px;
+    border: 1.2px solid #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -557,8 +539,8 @@ body.light-theme {
 }
 
 .nav-item.profile-circle-active .nav-icon-profile {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     stroke: #8e8e93;
     stroke-width: 1.5;
-   }
+}
