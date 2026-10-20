@@ -535,11 +535,11 @@ body.light-theme {
     stroke-width: 2;
 }
 
-/* Perfil Clicado: Círculo Branco com SVG no mesmo tamanho padronizado */
+/* Perfil Clicado: Círculo Branco Proporcional (Menor e Alinhado) */
 .nav-item.profile-circle-active .nav-profile-wrapper {
-    width: 34px;
-    height: 34px;
-    border: 2px solid #ffffff;
+    width: 26px;
+    height: 26px;
+    border: 1.8px solid #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -547,8 +547,8 @@ body.light-theme {
 }
 
 .nav-item.profile-circle-active .nav-icon {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     stroke: #ffffff;
-   }
-   
+}
+
