@@ -270,7 +270,7 @@ body.light-theme {
 
 .header-logo {
     font-size: 18px;
-    font-weight: 300; /* Fino e discreto */
+    font-weight: 300;
     letter-spacing: 2px;
 }
 
@@ -388,6 +388,7 @@ body.light-theme {
 
 .user-details-block {
     padding: 0 20px 16px 20px;
+    min-height: 20px; /* Mantém o espaçamento mesmo sem texto */
 }
 
 .user-name {
@@ -487,7 +488,7 @@ body.light-theme {
 }
 
 /* ==========================================================================
-   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - PROPORCIONAL E SIMÉTRICA
+   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - ÍCONES COM TAMANHO PADRONIZADO
    ========================================================================== */
 .bottom-nav {
     position: fixed;
@@ -521,23 +522,22 @@ body.light-theme {
     transition: all 0.2s ease;
 }
 
-/* Tamanho uniforme para todos os 3 ícones normais */
+/* Os 3 Ícones Inativos Padronizados em 24px */
 .nav-icon {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     stroke: #71767b;
 }
 
 .nav-item.active .nav-icon {
     stroke: #ffffff;
-    stroke-width: 1.8;
 }
 
-/* Círculo do Perfil com Tamanho e Espessura Alinhados */
+/* Perfil Clicado: Envolto por Círculo Branco com Tamanho Padronizado */
 .nav-item.profile-circle-active .nav-profile-wrapper {
-    width: 28px;
-    height: 28px;
-    border: 1.2px solid #ffffff;
+    width: 32px;
+    height: 32px;
+    border: 1.8px solid #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -545,8 +545,7 @@ body.light-theme {
 }
 
 .nav-item.profile-circle-active .nav-icon-profile {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     stroke: #ffffff;
-}
-
+   }
