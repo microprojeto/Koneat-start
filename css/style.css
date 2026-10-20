@@ -110,7 +110,7 @@ body {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Trava rígida de tamanho nos ícones SVG para nunca deformarem */
+/* Trava rígida de tamanho nos ícones SVG */
 svg.input-icon {
     position: absolute;
     left: 16px;
@@ -463,6 +463,9 @@ body.light-theme {
     cursor: pointer;
 }
 
+/* ==========================================================================
+   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ (BOTTOM NAV)
+   ========================================================================== */
 .bottom-nav {
     position: fixed;
     bottom: 20px;
@@ -470,14 +473,17 @@ body.light-theme {
     transform: translateX(-50%);
     width: calc(100% - 40px);
     max-width: 420px;
-    height: 56px;
-    background: #ffffff;
-    border-radius: 28px;
+    height: 58px;
+    background: rgba(22, 24, 28, 0.92); /* Tom Fumê Profissional */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 29px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     z-index: 1000;
+    padding: 0 8px;
 }
 
 .nav-item {
@@ -487,27 +493,59 @@ body.light-theme {
     width: 44px;
     height: 44px;
     text-decoration: none;
+    color: #71767b; /* Cinza oco inativo */
+    transition: all 0.2s ease;
 }
 
 .nav-icon {
     width: 22px;
     height: 22px;
+    stroke: #71767b;
 }
 
-.tiktok-box {
-    width: 32px;
-    height: 32px;
-    background: #000000;
+/* Ícone Ativo Genérico (ex: Perfil ou Lupa em Branco Puro) */
+.nav-item.active .nav-icon {
+    stroke: #ffffff;
+    stroke-width: 2.2;
+}
+
+/* Botão Central (+): Estado Normal / Inativo (Apenas o + em cinza) */
+.plus-icon-simple {
+    font-size: 24px;
+    font-weight: 300;
+    color: #71767b;
+    line-height: 1;
+}
+
+/* Botão Central (+): Estado Ativo (Quadradinho Branco com + Preto) */
+.btn-tiktok-add.active .tiktok-box {
+    width: 28px;
+    height: 28px;
+    background: #ffffff;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.plus-sign {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 400;
+.btn-tiktok-add.active .plus-sign {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 700;
     line-height: 1;
-   }
-       
+}
+
+/* Ícone de Vídeos (Reels): Estado Ativo (Fundo Branco Preenchido com Play Preto) */
+.nav-item.active-reels .reels-active-box {
+    width: 26px;
+    height: 26px;
+    background: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item.active-reels .play-triangle {
+    fill: #000000;
+       }
