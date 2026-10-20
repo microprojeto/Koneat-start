@@ -683,6 +683,7 @@ body.light-theme {
     font-size: 14px;
     color: #1e293b;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .link-right {
@@ -694,5 +695,82 @@ body.light-theme {
 .link-count {
     color: #94a3b8;
     font-size: 14px;
+}
+
+/* ==========================================================================
+   6. ESTILOS DAS MODAIS / PAINÉIS DESLIZANTES
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 2000;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-sheet {
+    width: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(100%);
+    transition: transform 0.25s ease-out;
+}
+
+.modal-overlay.show .modal-sheet {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.btn-primary-sheet {
+    width: 100%;
+    padding: 12px;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 16px;
+    cursor: pointer;
    }
-       
+   
