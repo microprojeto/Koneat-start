@@ -66,33 +66,33 @@
                 <input type="text" id="editGender" placeholder="Masculino ou feminino">
             </div>
 
-            <!-- Lista de Links Adicionais -->
+            <!-- Lista de Links Adicionais com IDs para as 4 funções reais -->
             <div class="edit-links-list">
-                <div class="edit-link-item">
+                <div class="edit-link-item" id="btnOpenContato">
                     <span>Contato</span>
                     <div class="link-right">
-                        <span class="link-count">0</span>
+                        <span class="link-count" id="countContato">0</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </div>
                 </div>
 
-                <div class="edit-link-item">
+                <div class="edit-link-item" id="btnOpenLink">
                     <span>Link</span>
                     <div class="link-right">
-                        <span class="link-count">0</span>
+                        <span class="link-count" id="countLink">0</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </div>
                 </div>
 
-                <div class="edit-link-item">
+                <div class="edit-link-item" id="btnOpenLocal">
                     <span>Localização</span>
                     <div class="link-right">
-                        <span class="link-count">0</span>
+                        <span class="link-count" id="countLocal">0</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </div>
                 </div>
 
-                <div class="edit-link-item">
+                <div class="edit-link-item" id="btnOpenConfig">
                     <span>Configurações de informações pessoais</span>
                     <div class="link-right">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -124,9 +124,66 @@
                 </div>
             </a>
         </nav>
+
+        <!-- Modais das Funções Reais -->
+        <div class="modal-overlay" id="modalContato">
+            <div class="modal-sheet">
+                <div class="modal-header">
+                    <h3>Contato</h3>
+                    <button type="button" class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="edit-card-group">
+                        <label>WhatsApp / Telefone</label>
+                        <input type="text" id="inputWhatsapp" placeholder="+55 (11) 99999-9999">
+                    </div>
+                    <div class="edit-card-group" style="margin-top: 10px;">
+                        <label>E-mail de Contato</label>
+                        <input type="email" id="inputEmailContato" placeholder="seuemail@exemplo.com">
+                    </div>
+                    <button type="button" class="btn-primary-sheet" id="btnSaveContato">Concluir</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modalLink">
+            <div class="modal-sheet">
+                <div class="modal-header">
+                    <h3>Link</h3>
+                    <button type="button" class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="edit-card-group">
+                        <label>URL do Link</label>
+                        <input type="url" id="inputUrlLink" placeholder="https://seusite.com.br">
+                    </div>
+                    <div class="edit-card-group" style="margin-top: 10px;">
+                        <label>Título / Nome Personalizado</label>
+                        <input type="text" id="inputTitleLink" placeholder="Ex: Meu Site">
+                    </div>
+                    <button type="button" class="btn-primary-sheet" id="btnSaveLink">Concluir</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modalLocal">
+            <div class="modal-sheet">
+                <div class="modal-header">
+                    <h3>Localização</h3>
+                    <button type="button" class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="edit-card-group">
+                        <label>Cidade e Estado</label>
+                        <input type="text" id="inputLocalizacao" placeholder="Ex: São Paulo, SP">
+                    </div>
+                    <button type="button" class="btn-primary-sheet" id="btnSaveLocal">Concluir</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/app.js"></script>
 </body>
-                      </html>
-  
+                </html>
+                        
