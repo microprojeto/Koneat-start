@@ -1,4 +1,21 @@
 /* ==========================================================================
+   1. RESET BÁSICO E ESTILOS COMPARTILHADOS
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
    2. TEMA ESCURO (LOGIN - index.html)
    ========================================================================== */
 body {
@@ -24,34 +41,35 @@ body {
 
 .logo-area {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 }
 
 .logo-text {
     font-size: 38px;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -1px;
+    margin-bottom: -4px;
 }
 
 .brand-name {
     font-size: 24px;
     font-weight: 700;
     letter-spacing: 4px;
-    margin-top: -6px;
 }
 
 .brand-name span {
     font-weight: 300;
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 2px;
     opacity: 0.8;
+    margin-left: 2px;
 }
 
 .subtitle {
-    font-size: 12px;
-    letter-spacing: 6px;
+    font-size: 11px;
+    letter-spacing: 5px;
     color: #888;
-    margin-top: 6px;
+    margin-top: 8px;
     text-transform: uppercase;
 }
 
@@ -59,7 +77,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 
 .input-group {
@@ -153,7 +171,7 @@ svg.eye-icon {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 6px;
     transition: opacity 0.2s ease;
 }
 
@@ -166,7 +184,7 @@ svg.eye-icon {
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     line-height: 0.1em;
-    margin: 24px 0;
+    margin: 22px 0;
 }
 
 .divider span {
@@ -211,13 +229,19 @@ svg.eye-icon {
 }
 
 .login-footer {
-    margin-top: 32px;
+    margin-top: 28px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     font-size: 12px;
     color: #777;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
 }
 
 .login-footer a {
@@ -252,7 +276,6 @@ body.light-theme {
     flex-direction: column;
 }
 
-/* Header Premium Fino */
 .profile-header {
     display: flex;
     justify-content: space-between;
@@ -318,7 +341,6 @@ body.light-theme {
     background: #f0f4f8;
 }
 
-/* Disposição Superior */
 .profile-top-layout {
     display: flex;
     align-items: center;
@@ -448,7 +470,6 @@ body.light-theme {
     border-bottom: 2px solid #000;
 }
 
-/* Área Vazia / Feed Painel */
 .feed-empty-state {
     padding: 50px 20px;
     display: flex;
@@ -481,7 +502,7 @@ body.light-theme {
 }
 
 /* ==========================================================================
-   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - CÍRCULO PROPORCIONAL
+   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ
    ========================================================================== */
 .bottom-nav {
     position: fixed;
@@ -515,7 +536,6 @@ body.light-theme {
     transition: all 0.2s ease;
 }
 
-/* Ícones da navegação rigorosamente em 18px para ficarem uniformes */
 .nav-icon {
     width: 18px;
     height: 18px;
@@ -527,7 +547,6 @@ body.light-theme {
     stroke: #ffffff;
 }
 
-/* Círculo do Perfil pequeno, proporcional e alinhado (23px) com ícone cinza por dentro */
 .nav-item.profile-circle-active .nav-profile-wrapper {
     width: 23px;
     height: 23px;
@@ -543,4 +562,5 @@ body.light-theme {
     height: 14px;
     stroke: #8e8e93;
     stroke-width: 1.5;
-}
+   }
+   
