@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (editName && editUsername && editBio) {
         editName.value = localStorage.getItem("koneat_name") || "";
-        editUsername.value = localStorage.getItem("koneat_username") || "";
+        editUsername.value = localStorage.getItem("kone_username") || localStorage.getItem("koneat_username") || "";
         editBio.value = localStorage.getItem("koneat_bio") || "";
         if (editBirth) editBirth.value = localStorage.getItem("koneat_birth") || "";
         if (editGender) editGender.value = localStorage.getItem("koneat_gender") || "";
@@ -88,10 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newUsername = editUsername.value.trim().replace("@", "");
             const newBio = editBio.value.trim();
 
-            if (!newName || !newUsername) {
-                alert("Por favor, preencha pelo menos o Nome e o Nome de usuário.");
-                return;
-            }
+            // Trava removida com sucesso! Agora salva mesmo se estiver vazio.
 
             localStorage.setItem("koneat_name", newName);
             localStorage.setItem("koneat_username", newUsername);
@@ -103,4 +100,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-                        
