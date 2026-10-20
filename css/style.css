@@ -6,6 +6,14 @@
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #ffffff;
 }
 
 /* ==========================================================================
@@ -24,7 +32,6 @@ body {
     padding: 20px;
 }
 
-/* Container do Form */
 .login-container {
     width: 100%;
     max-width: 380px;
@@ -33,7 +40,6 @@ body {
     align-items: center;
 }
 
-/* Header & Logos (Login) */
 .logo-area {
     text-align: center;
     margin-bottom: 32px;
@@ -67,7 +73,6 @@ body {
     text-transform: uppercase;
 }
 
-/* Form Styles */
 .login-form {
     width: 100%;
     display: flex;
@@ -110,7 +115,6 @@ body {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Trava rígida de tamanho nos ícones SVG */
 svg.input-icon {
     position: absolute;
     left: 16px;
@@ -142,7 +146,6 @@ svg.eye-icon {
     stroke: #888888;
 }
 
-/* Botão Entrar */
 .btn-primary {
     width: 100%;
     padding: 15px;
@@ -166,7 +169,6 @@ svg.eye-icon {
     opacity: 0.9;
 }
 
-/* Separador */
 .divider {
     width: 100%;
     text-align: center;
@@ -182,7 +184,6 @@ svg.eye-icon {
     font-size: 12px;
 }
 
-/* Botão Google com Linha Divisória */
 .btn-google {
     width: 100%;
     padding: 12px 20px;
@@ -217,7 +218,6 @@ svg.eye-icon {
     font-weight: 500;
 }
 
-/* Rodapé de Links */
 .login-footer {
     margin-top: 32px;
     text-align: center;
@@ -235,24 +235,29 @@ svg.eye-icon {
 }
 
 /* ==========================================================================
-   3. TEMA CLARO (PERFIL / PASSO1 - passo1.html)
+   3. TEMA CLARO - TELA CHEIA NATIVA (PERFIL / PASSO1 - passo1.html)
    ========================================================================== */
 body.light-theme {
-    background-color: #f7f9fc;
+    background-color: #ffffff;
     background-image: none;
     color: #111111;
     display: block;
     padding: 0;
+    margin: 0;
     min-height: 100vh;
 }
 
+/* Container de Tela Cheia Nível App Nativo */
 .app-container {
+    width: 100%;
     max-width: 480px;
     margin: 0 auto;
     background: #ffffff;
     min-height: 100vh;
-    padding-bottom: 90px;
+    padding-bottom: 75px;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .profile-header {
@@ -260,7 +265,7 @@ body.light-theme {
     justify-content: space-between;
     align-items: center;
     padding: 16px 20px;
-    border-bottom: 1px solid #eaeaea; /* Linha finíssima abaixo do topo */
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .header-logo {
@@ -319,20 +324,22 @@ body.light-theme {
     background: #f0f4f8;
 }
 
-.profile-info {
+/* Disposição Superior (Avatar + Métricas Lado a Lado) */
+.profile-top-layout {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 10px 20px;
+    padding: 18px 20px 10px 20px;
+    gap: 24px;
 }
 
 .avatar-container {
     position: relative;
+    flex-shrink: 0;
 }
 
 .avatar-circle {
-    width: 80px;
-    height: 80px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     background: #e8eef7;
     display: flex;
@@ -344,8 +351,8 @@ body.light-theme {
     position: absolute;
     bottom: 2px;
     right: 2px;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background: #000;
     border-radius: 50%;
     border: 2px solid #fff;
@@ -355,29 +362,12 @@ body.light-theme {
     cursor: pointer;
 }
 
-.user-name {
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.user-tag {
-    font-size: 14px;
-    color: #333;
-    margin-top: 2px;
-}
-
-.user-bio {
-    font-size: 13px;
-    color: #6c757d;
-    margin-top: 4px;
-}
-
-.stats-bar {
+/* Métricas alinhadas na mesma linha do Avatar */
+.stats-bar-inline {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px;
-    margin-top: 10px;
+    flex-grow: 1;
 }
 
 .stat-item {
@@ -388,6 +378,7 @@ body.light-theme {
     display: block;
     font-size: 16px;
     font-weight: 700;
+    color: #000;
 }
 
 .stat-label {
@@ -395,10 +386,27 @@ body.light-theme {
     color: #222;
 }
 
-.stat-divider {
-    width: 1px;
-    height: 25px;
-    background: #eaeaea;
+/* Bloco de Nome/Tag/Bio abaixo do Avatar */
+.user-details-block {
+    padding: 0 20px 16px 20px;
+}
+
+.user-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111;
+}
+
+.user-tag {
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+}
+
+.user-bio {
+    font-size: 13px;
+    color: #333;
+    margin-top: 6px;
 }
 
 .action-buttons {
@@ -409,11 +417,11 @@ body.light-theme {
 
 .btn-secondary {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     background: #ebf1fa;
     border: none;
-    border-radius: 20px;
-    font-size: 14px;
+    border-radius: 18px;
+    font-size: 13px;
     font-weight: 600;
     color: #111;
     cursor: pointer;
@@ -424,7 +432,7 @@ body.light-theme {
 .content-tabs {
     display: flex;
     border-bottom: 1px solid #eee;
-    margin-top: 20px;
+    margin-top: 16px;
 }
 
 .tab-btn {
@@ -447,54 +455,71 @@ body.light-theme {
     border-bottom: 2px solid #000;
 }
 
+/* Área Vazia / Feed Painel */
 .feed-empty-state {
-    padding: 60px 20px;
+    padding: 50px 20px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.empty-icon-wrapper {
+    margin-bottom: 12px;
+}
+
+.empty-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 16px;
 }
 
 .btn-create-post {
     padding: 12px 24px;
     background: #ebf1fa;
     border: none;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 16px;
+    font-size: 13px;
     font-weight: 600;
     color: #111;
     cursor: pointer;
 }
 
 /* ==========================================================================
-   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ (BOTTOM NAV)
+   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - ENCOSTADA NO FIM & PADRONIZADA
    ========================================================================== */
 .bottom-nav {
     position: fixed;
-    bottom: 20px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 40px);
-    max-width: 420px;
-    height: 58px;
-    background: rgba(22, 24, 28, 0.92); /* Tom Fumê Profissional */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 29px;
+    width: 100%;
+    max-width: 480px;
+    height: 60px;
+    background: rgba(22, 24, 28, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    padding: 0 8px;
+    padding: 0 12px;
 }
 
+/* Todos os 4 botões com tamanho simétrico idêntico */
 .nav-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     text-decoration: none;
-    color: #71767b; /* Cinza oco inativo */
+    color: #71767b;
     transition: all 0.2s ease;
 }
 
@@ -504,50 +529,26 @@ body.light-theme {
     stroke: #71767b;
 }
 
-/* Ícone Ativo Genérico (ex: Perfil ou Lupa em Branco Puro) */
+/* Ícone Ativo Genérico */
 .nav-item.active .nav-icon {
     stroke: #ffffff;
-    stroke-width: 2.2;
+    stroke-width: 2;
 }
 
-/* Botão Central (+): Estado Normal / Inativo (Apenas o + em cinza) */
-.plus-icon-simple {
-    font-size: 24px;
-    font-weight: 300;
-    color: #71767b;
-    line-height: 1;
-}
-
-/* Botão Central (+): Estado Ativo (Quadradinho Branco com + Preto) */
-.btn-tiktok-add.active .tiktok-box {
-    width: 28px;
-    height: 28px;
-    background: #ffffff;
-    border-radius: 8px;
+/* Perfil Clicado: Círculo Branco com SVG no mesmo tamanho padronizado */
+.nav-item.profile-circle-active .nav-profile-wrapper {
+    width: 34px;
+    height: 34px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.btn-tiktok-add.active .plus-sign {
-    color: #000000;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
-}
-
-/* Ícone de Vídeos (Reels): Estado Ativo (Fundo Branco Preenchido com Play Preto) */
-.nav-item.active-reels .reels-active-box {
-    width: 26px;
-    height: 26px;
-    background: #ffffff;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-item.active-reels .play-triangle {
-    fill: #000000;
+.nav-item.profile-circle-active .nav-icon {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
    }
    
