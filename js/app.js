@@ -99,4 +99,94 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = "passo1.html";
         });
     }
+
+    // 6. Controle das 4 Opções do Rodapé (Contato, Link, Localização e Configurações)
+    const modalContato = document.getElementById("modalContato");
+    const modalLink = document.getElementById("modalLink");
+    const modalLocal = document.getElementById("modalLocal");
+
+    const countContato = document.getElementById("countContato");
+    const countLink = document.getElementById("countLink");
+    const countLocal = document.getElementById("countLocal");
+
+    // Atualizar Contadores Iniciais baseados no localStorage
+    const updateCounts = () => {
+        const hasContato = (localStorage.getItem("koneat_whatsapp") || localStorage.getItem("koneat_email_contato"));
+        const hasLink = localStorage.getItem("koneat_url_link");
+        const hasLocal = localStorage.getItem("koneat_localizacao");
+
+        if (countContato) countContato.textContent = hasContato ? "1" : "0";
+        if (countLink) countLink.textContent = hasLink ? "1" : "0";
+        if (countLocal) countLocal.textContent = hasLocal ? "1" : "0";
+    };
+
+    updateCounts();
+
+    // Abrir Modal Contato
+    document.getElementById("btnOpenContato")?.addEventListener("click", () => {
+        const inputWp = document.getElementById("inputWhatsapp");
+        const inputEmail = document.getElementById("inputEmailContato");
+        if (inputWp) inputWp.value = localStorage.getItem("koneat_whatsapp") || "";
+        if (inputEmail) inputEmail.value = localStorage.getItem("koneat_email_contato") || "";
+        modalContato?.classList.add("show");
+    });
+
+    // Abrir Modal Link
+    document.getElementById("btnOpenLink")?.addEventListener("click", () => {
+        const inputUrl = document.getElementById("inputUrlLink");
+        const inputTitle = document.getElementById("inputTitleLink");
+        if (inputUrl) inputUrl.value = localStorage.getItem("koneat_url_link") || "";
+        if (inputTitle) inputTitle.value = localStorage.getItem("koneat_title_link") || "";
+        modalLink?.classList.add("show");
+    });
+
+    // Abrir Modal Localização
+    document.getElementById("btnOpenLocal")?.addEventListener("click", () => {
+        const inputLoc = document.getElementById("inputLocalizacao");
+        if (inputLoc) inputLoc.value = localStorage.getItem("koneat_localizacao") || "";
+        modalLocal?.classList.add("show");
+    });
+
+    // Abrir Configurações de informações pessoais
+    document.getElementById("btnOpenConfig")?.addEventListener("click", () => {
+        window.location.href = "configuracoes.html";
+    });
+
+    // Fechar Modais (ao clicar no X ou fora da janela deslizante)
+    document.querySelectorAll(".close-modal, .modal-overlay").forEach(el => {
+        el.addEventListener("click", (e) => {
+            if (e.target === el || el.classList.contains("close-modal")) {
+                document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("show"));
+            }
+        });
+    });
+
+    // Salvar Contato (Permite limpar e salvar em branco)
+    document.getElementById("btnSaveContato")?.addEventListener("click", () => {
+        const inputWp = document.getElementById("inputWhatsapp");
+        const inputEmail = document.getElementById("inputEmailContato");
+        localStorage.setItem("koneat_whatsapp", inputWp ? inputWp.value.trim() : "");
+        localStorage.setItem("koneat_email_contato", inputEmail ? inputEmail.value.trim() : "");
+        modalContato?.classList.remove("show");
+        updateCounts();
+    });
+
+    // Salvar Link (Permite limpar e salvar em branco)
+    document.getElementById("btnSaveLink")?.addEventListener("click", () => {
+        const inputUrl = document.getElementById("inputUrlLink");
+        const inputTitle = document.getElementById("inputTitleLink");
+        localStorage.setItem("koneat_url_link", inputUrl ? inputUrl.value.trim() : "");
+        localStorage.setItem("koneat_title_link", inputTitle ? inputTitle.value.trim() : "");
+        modalLink?.classList.remove("show");
+        updateCounts();
+    });
+
+    // Salvar Localização (Permite limpar e salvar em branco)
+    document.getElementById("btnSaveLocal")?.addEventListener("click", () => {
+        const inputLoc = document.getElementById("inputLocalizacao");
+        localStorage.setItem("koneat_localizacao", inputLoc ? inputLoc.value.trim() : "");
+        modalLocal?.classList.remove("show");
+        updateCounts();
+    });
 });
+    
