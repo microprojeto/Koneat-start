@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -41,44 +42,41 @@
             </div>
         </header>
 
-        <!-- Informações do Perfil -->
-        <section class="profile-info">
+        <!-- Bloco Superior: Avatar + Métricas Lado a Lado (Estilo Instagram) -->
+        <section class="profile-top-layout">
             <div class="avatar-container">
                 <div class="avatar-circle">
-                    <!-- SVG do Perfil Original (linha reta horizontal embaixo) -->
-                    <svg width="55" height="55" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </div>
                 <button class="camera-btn" aria-label="Alterar Foto">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                 </button>
             </div>
 
-            <div class="user-details">
-                <h1 class="user-name">David Silva</h1>
-                <p class="user-tag">@david.silva</p>
-                <p class="user-bio">Construindo meu futuro</p>
+            <div class="stats-bar-inline">
+                <div class="stat-item">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">posts</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">seguidores</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">seguindo</span>
+                </div>
             </div>
         </section>
 
-        <!-- Métricas -->
-        <section class="stats-bar">
-            <div class="stat-item">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Publicações</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Seguidores</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Seguindo</span>
-            </div>
+        <!-- Informações do Usuário (Abaixo do Avatar) -->
+        <section class="user-details-block">
+            <h1 class="user-name">Eributtler</h1>
+            <p class="user-tag">@eri.buttler</p>
+            <p class="user-bio">Construindo meu futuro!</p>
         </section>
 
         <!-- Botões de Ação do Perfil -->
@@ -98,7 +96,6 @@
                 <span>Reposts</span>
             </button>
             <button class="tab-btn">
-                <!-- SVG de Marcações no Estilo Oficial do Instagram -->
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2.5l1.2 1.5H18A1.5 1.5 0 0 1 19.5 5.5v13a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18.5v-13A1.5 1.5 0 0 1 6 4h4.8L12 2.5z"></path>
                     <circle cx="12" cy="11" r="2.2"></circle>
@@ -108,9 +105,19 @@
             </button>
         </nav>
 
-        <!-- Área Vazia / Feed Painel -->
+        <!-- Área Vazia / Feed Painel com o ícone das duas pessoas -->
         <section class="feed-empty-state">
-            <button class="btn-create-post">Crie sua primeira publicação</button>
+            <div class="empty-icon-wrapper">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="3.5"></circle>
+                    <path d="M20 8v.5a3.5 3.5 0 0 1-3.5 3.5H16"></path>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </div>
+            <h2 class="empty-title">Capture o momento com um amigo</h2>
+            <button class="btn-create-post">Crie seu primeiro post</button>
         </section>
 
         <!-- Barra de Navegação Inferior (Bottom Nav Flutuante Fumê) -->
@@ -127,17 +134,19 @@
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="4"></rect><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
             </a>
 
-            <!-- Aba Perfil Ativa -->
-            <a href="passo1.html" class="nav-item active" aria-label="Perfil">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+            <!-- Aba Perfil Ativa (Com o círculo branco envolvente quando clicado) -->
+            <a href="passo1.html" class="nav-item active profile-circle-active" aria-label="Perfil">
+                <div class="nav-profile-wrapper">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
             </a>
         </nav>
     </div>
 
     <script src="js/app.js"></script>
-</body>
-                     
-    </html>
+</bo
+    dy>
+                            </html>
