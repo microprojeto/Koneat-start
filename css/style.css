@@ -247,7 +247,6 @@ body.light-theme {
     min-height: 100vh;
 }
 
-/* Container de Tela Cheia Nível App Nativo */
 .app-container {
     width: 100%;
     max-width: 480px;
@@ -260,6 +259,7 @@ body.light-theme {
     flex-direction: column;
 }
 
+/* Header Premium Fino */
 .profile-header {
     display: flex;
     justify-content: space-between;
@@ -270,11 +270,12 @@ body.light-theme {
 
 .header-logo {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 300; /* Fino e discreto */
+    letter-spacing: 2px;
 }
 
 .logo-bold {
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .header-actions {
@@ -324,7 +325,7 @@ body.light-theme {
     background: #f0f4f8;
 }
 
-/* Disposição Superior (Avatar + Métricas Lado a Lado) */
+/* Disposição Superior */
 .profile-top-layout {
     display: flex;
     align-items: center;
@@ -362,7 +363,6 @@ body.light-theme {
     cursor: pointer;
 }
 
-/* Métricas alinhadas na mesma linha do Avatar */
 .stats-bar-inline {
     display: flex;
     justify-content: space-around;
@@ -386,7 +386,6 @@ body.light-theme {
     color: #222;
 }
 
-/* Bloco de Nome/Tag/Bio abaixo do Avatar */
 .user-details-block {
     padding: 0 20px 16px 20px;
 }
@@ -470,7 +469,7 @@ body.light-theme {
 }
 
 .empty-title {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: #111;
     margin-bottom: 16px;
@@ -488,7 +487,7 @@ body.light-theme {
 }
 
 /* ==========================================================================
-   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - ENCOSTADA NO FIM & PADRONIZADA
+   4. BARRA DE NAVEGAÇÃO FLUTUANTE FUMÊ - PROPORCIONAL E SIMÉTRICA
    ========================================================================== */
 .bottom-nav {
     position: fixed;
@@ -511,7 +510,6 @@ body.light-theme {
     padding: 0 12px;
 }
 
-/* Todos os 4 botões com tamanho simétrico idêntico */
 .nav-item {
     display: flex;
     align-items: center;
@@ -523,32 +521,32 @@ body.light-theme {
     transition: all 0.2s ease;
 }
 
+/* Tamanho uniforme para todos os 3 ícones normais */
 .nav-icon {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     stroke: #71767b;
 }
 
-/* Ícone Ativo Genérico */
 .nav-item.active .nav-icon {
     stroke: #ffffff;
-    stroke-width: 2;
+    stroke-width: 1.8;
 }
 
-/* Perfil Clicado: Círculo Branco Proporcional (Menor e Alinhado) */
+/* Círculo do Perfil com Tamanho e Espessura Alinhados */
 .nav-item.profile-circle-active .nav-profile-wrapper {
-    width: 26px;
-    height: 26px;
-    border: 1.8px solid #ffffff;
+    width: 28px;
+    height: 28px;
+    border: 1.2px solid #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.nav-item.profile-circle-active .nav-icon {
-    width: 15px;
-    height: 15px;
+.nav-item.profile-circle-active .nav-icon-profile {
+    width: 16px;
+    height: 16px;
     stroke: #ffffff;
 }
 
