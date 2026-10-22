@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Alternar linha preta entre as abas do perfil (Todos / Reposts / Marcações)
+    // 3. Alternar linha entre as abas do perfil (Todos / Reposts / Marcações)
     const tabBtns = document.querySelectorAll('.tab-btn');
     if (tabBtns.length > 0) {
         tabBtns.forEach(btn => {
@@ -64,18 +64,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedUrlLink = localStorage.getItem("koneat_url_link") || "";
         const savedTitleLink = localStorage.getItem("koneat_title_link") || "";
         const savedLocalizacao = localStorage.getItem("koneat_localizacao") || "";
+        const savedWhatsapp = localStorage.getItem("koneat_whatsapp") || "";
 
         if (headerUsername) headerUsername.textContent = cleanUsername;
         if (profileName) profileName.textContent = savedName;
         if (profileTag) profileTag.textContent = cleanUsername ? `@${cleanUsername}` : "";
         if (profileBio) profileBio.textContent = savedBio;
 
-        // Renderizar Link e Localização dinamicamente no perfil se existirem
+        // Renderizar Link, WhatsApp e Localização dinamicamente no perfil
         if (userDetailsBlock) {
             let elLink = document.getElementById("profileLinkDisplay");
+            let elWp = document.getElementById("profileWpDisplay");
             let elLoc = document.getElementById("profileLocDisplay");
 
-            // Exibir Link
+            // Exibir Link do Site
             if (savedUrlLink) {
                 if (!elLink) {
                     elLink = document.createElement("a");
@@ -89,6 +91,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 elLink.textContent = `🔗 ${savedTitleLink || savedUrlLink}`;
             } else if (elLink) {
                 elLink.remove();
+            }
+
+            // Exibir WhatsApp Clicável
+            if (savedWhatsapp) {
+                if (!elWp) {
+                    elWp = document.createElement("a");
+                    elWp.id = "profileWpDisplay";
+                    elWp.target = "_blank";
+                    elWp.style.cssText = "display: block; color: #0066ff; text-decoration: none; font-size: 14px; font-weight: 600; margin-top: 4px;";
+                    userDetailsBlock.appendChild(elWp);
+                }
+                // Limpa caracteres especiais para o link do whatsapp funcionar perfeitamente
+                const cleanWp = savedWhatsapp.replace(/\D/g, "");
+                elWp.href = `https://wa.me/55${cleanWp}`;
+                elWp.textContent = `💬 ${savedWhatsapp}`;
+            } else if (elWp) {
+                elWp.remove();
             }
 
             // Exibir Localização
@@ -145,15 +164,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalLink = document.getElementById("modalLink");
     const modalLocal = document.getElementById("modalLocal");
 
-    const countContato = document.getElementById("countContato");
-    const countLink = document.getElementById("countLink");
-    const countLocal = document.getElementById("countLocal");
-
-    // Atualizar Contadores Iniciais baseados no localStorage
     const updateCounts = () => {
-        const hasContato = (localStorage.getItem("koneat_whatsapp") || localStorage.getItem("koneat_email_contato"));
+        const hasContato = localStorage.getItem("koneat_whatsapp");
         const hasLink = localStorage.getItem("koneat_url_link");
         const hasLocal = localStorage.getItem("koneat_localizacao");
+
+        const countContato = document.getElementById("countContato");
+        const countLink = document.getElementById("countLink");
+        const countLocal = document.getElementById("countLocal");
 
         if (countContato) countContato.textContent = hasContato ? "1" : "0";
         if (countLink) countLink.textContent = hasLink ? "1" : "0";
@@ -162,12 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateCounts();
 
-    // Abrir Modal Contato
+    // Abrir Modal Contato (Apenas WhatsApp)
     document.getElementById("btnOpenContato")?.addEventListener("click", () => {
         const inputWp = document.getElementById("inputWhatsapp");
-        const inputEmail = document.getElementById("inputEmailContato");
         if (inputWp) inputWp.value = localStorage.getItem("koneat_whatsapp") || "";
-        if (inputEmail) inputEmail.value = localStorage.getItem("koneat_email_contato") || "";
         modalContato?.classList.add("show");
     });
 
@@ -201,12 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Salvar Contato
+    // Salvar Contato (Apenas WhatsApp)
     document.getElementById("btnSaveContato")?.addEventListener("click", () => {
         const inputWp = document.getElementById("inputWhatsapp");
-        const inputEmail = document.getElementById("inputEmailContato");
         localStorage.setItem("koneat_whatsapp", inputWp ? inputWp.value.trim() : "");
-        localStorage.setItem("koneat_email_contato", inputEmail ? inputEmail.value.trim() : "");
         modalContato?.classList.remove("show");
         updateCounts();
     });
@@ -229,4 +243,4 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 });
-    
+
