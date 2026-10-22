@@ -53,14 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileName = document.getElementById("profileName");
     const profileTag = document.getElementById("profileTag");
     const profileBio = document.getElementById("profileBio");
+    const headerUsername = document.getElementById("headerUsername");
 
-    if (profileName || profileTag || profileBio) {
+    if (profileName || profileTag || profileBio || headerUsername) {
         const savedName = localStorage.getItem("koneat_name") || "";
-        const savedUsername = localStorage.getItem("koneat_username") || "";
+        const rawUsername = localStorage.getItem("koneat_username") || "";
+        const cleanUsername = rawUsername.replace("@", "").trim().toLowerCase(); // Forçar letras minúsculas
         const savedBio = localStorage.getItem("koneat_bio") || "";
 
+        if (headerUsername) headerUsername.textContent = cleanUsername; // Nome de usuário no topo esquerdo
         if (profileName) profileName.textContent = savedName;
-        if (profileTag) profileTag.textContent = savedUsername ? `@${savedUsername.replace("@", "")}` : "";
+        if (profileTag) profileTag.textContent = cleanUsername ? `@${cleanUsername}` : "";
         if (profileBio) profileBio.textContent = savedBio;
     }
 
@@ -74,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (editName && editUsername && editBio) {
         editName.value = localStorage.getItem("koneat_name") || "";
-        editUsername.value = localStorage.getItem("kone_username") || localStorage.getItem("koneat_username") || "";
+        editUsername.value = (localStorage.getItem("kone_username") || localStorage.getItem("koneat_username") || "").toLowerCase();
         editBio.value = localStorage.getItem("koneat_bio") || "";
         if (editBirth) editBirth.value = localStorage.getItem("koneat_birth") || "";
         if (editGender) editGender.value = localStorage.getItem("koneat_gender") || "";
@@ -85,10 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const newName = editName.value.trim();
-            const newUsername = editUsername.value.trim().replace("@", "");
+            const newUsername = editUsername.value.trim().replace("@", "").toLowerCase(); // Salva sempre em minúsculas
             const newBio = editBio.value.trim();
-
-            // Trava removida com sucesso! Agora salva mesmo se estiver vazio.
 
             localStorage.setItem("koneat_name", newName);
             localStorage.setItem("koneat_username", newUsername);
@@ -189,4 +190,4 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 });
-    
+                                 
