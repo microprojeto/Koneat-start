@@ -54,17 +54,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileTag = document.getElementById("profileTag");
     const profileBio = document.getElementById("profileBio");
     const headerUsername = document.getElementById("headerUsername");
+    const userDetailsBlock = document.querySelector(".user-details-block");
 
     if (profileName || profileTag || profileBio || headerUsername) {
         const savedName = localStorage.getItem("koneat_name") || "";
         const rawUsername = localStorage.getItem("koneat_username") || "";
-        const cleanUsername = rawUsername.replace("@", "").trim().toLowerCase(); // Forçar letras minúsculas
+        const cleanUsername = rawUsername.replace("@", "").trim().toLowerCase();
         const savedBio = localStorage.getItem("koneat_bio") || "";
+        const savedUrlLink = localStorage.getItem("koneat_url_link") || "";
+        const savedTitleLink = localStorage.getItem("koneat_title_link") || "";
+        const savedLocalizacao = localStorage.getItem("koneat_localizacao") || "";
 
-        if (headerUsername) headerUsername.textContent = cleanUsername; // Nome de usuário no topo esquerdo
+        if (headerUsername) headerUsername.textContent = cleanUsername;
         if (profileName) profileName.textContent = savedName;
         if (profileTag) profileTag.textContent = cleanUsername ? `@${cleanUsername}` : "";
         if (profileBio) profileBio.textContent = savedBio;
+
+        // Renderizar Link e Localização dinamicamente no perfil se existirem
+        if (userDetailsBlock) {
+            let elLink = document.getElementById("profileLinkDisplay");
+            let elLoc = document.getElementById("profileLocDisplay");
+
+            // Exibir Link
+            if (savedUrlLink) {
+                if (!elLink) {
+                    elLink = document.createElement("a");
+                    elLink.id = "profileLinkDisplay";
+                    elLink.target = "_blank";
+                    elLink.style.cssText = "display: block; color: #0066ff; text-decoration: none; font-size: 14px; font-weight: 600; margin-top: 4px;";
+                    userDetailsBlock.appendChild(elLink);
+                }
+                const fullUrl = savedUrlLink.startsWith("http") ? savedUrlLink : `https://${savedUrlLink}`;
+                elLink.href = fullUrl;
+                elLink.textContent = `🔗 ${savedTitleLink || savedUrlLink}`;
+            } else if (elLink) {
+                elLink.remove();
+            }
+
+            // Exibir Localização
+            if (savedLocalizacao) {
+                if (!elLoc) {
+                    elLoc = document.createElement("p");
+                    elLoc.id = "profileLocDisplay";
+                    elLoc.style.cssText = "color: #8e8e93; font-size: 13px; margin-top: 2px;";
+                    userDetailsBlock.appendChild(elLoc);
+                }
+                elLoc.textContent = `📍 ${savedLocalizacao}`;
+            } else if (elLoc) {
+                elLoc.remove();
+            }
+        }
     }
 
     // 5. Lógica da Tela de Editar Perfil (editar-perfil.html)
@@ -88,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const newName = editName.value.trim();
-            const newUsername = editUsername.value.trim().replace("@", "").toLowerCase(); // Salva sempre em minúsculas
+            const newUsername = editUsername.value.trim().replace("@", "").toLowerCase();
             const newBio = editBio.value.trim();
 
             localStorage.setItem("koneat_name", newName);
@@ -97,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (editBirth) localStorage.setItem("koneat_birth", editBirth.value.trim());
             if (editGender) localStorage.setItem("koneat_gender", editGender.value.trim());
 
-            window.location.href = "passo1.html";
+            window.location.href = "./passo1.html";
         });
     }
 
@@ -150,10 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Abrir Configurações de informações pessoais
     document.getElementById("btnOpenConfig")?.addEventListener("click", () => {
-        window.location.href = "configuracoes.html";
+        window.location.href = "./configuracoes.html";
     });
 
-    // Fechar Modais (ao clicar no X ou fora da janela deslizante)
+    // Fechar Modais
     document.querySelectorAll(".close-modal, .modal-overlay").forEach(el => {
         el.addEventListener("click", (e) => {
             if (e.target === el || el.classList.contains("close-modal")) {
@@ -162,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Salvar Contato (Permite limpar e salvar em branco)
+    // Salvar Contato
     document.getElementById("btnSaveContato")?.addEventListener("click", () => {
         const inputWp = document.getElementById("inputWhatsapp");
         const inputEmail = document.getElementById("inputEmailContato");
@@ -172,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 
-    // Salvar Link (Permite limpar e salvar em branco)
+    // Salvar Link
     document.getElementById("btnSaveLink")?.addEventListener("click", () => {
         const inputUrl = document.getElementById("inputUrlLink");
         const inputTitle = document.getElementById("inputTitleLink");
@@ -182,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 
-    // Salvar Localização (Permite limpar e salvar em branco)
+    // Salvar Localização
     document.getElementById("btnSaveLocal")?.addEventListener("click", () => {
         const inputLoc = document.getElementById("inputLocalizacao");
         localStorage.setItem("koneat_localizacao", inputLoc ? inputLoc.value.trim() : "");
@@ -190,4 +229,4 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 });
-                                 
+    
