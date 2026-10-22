@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Controle das 4 Opções do Rodapé (Contato, Link, Localização e Configurações)
+    // 6. Controle das Opções do Rodapé (Contato, Link, Localização)
     const modalContato = document.getElementById("modalContato");
     const modalLink = document.getElementById("modalLink");
     const modalLocal = document.getElementById("modalLocal");
@@ -237,14 +237,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 
-    // 7. Lógica da Tela de Configurações (Notificações e Conta Privada)
+    // 7. Lógica da Tela de Configurações (Notificações, Conta Privada e Idioma)
     const toggleNotif = document.getElementById("toggleNotif");
     const togglePrivate = document.getElementById("togglePrivate");
     const subtitlePrivate = document.getElementById("subtitlePrivate");
     const saveConfigBtn = document.getElementById("saveConfigBtn");
 
+    // Elementos do Modal de Idioma
+    const btnOpenIdioma = document.getElementById("btnOpenIdioma");
+    const modalIdioma = document.getElementById("modalIdioma");
+    const subtitleIdioma = document.getElementById("subtitleIdioma");
+    const langRadios = document.querySelectorAll('input[name="app_language"]');
+
     if (toggleNotif && togglePrivate) {
-        // Se for a primeira vez (null), assume true para notificações e false para conta privada
         const savedNotif = localStorage.getItem("koneat_notif_enabled");
         toggleNotif.checked = savedNotif === null ? true : (savedNotif === "true");
 
@@ -256,13 +261,43 @@ document.addEventListener('DOMContentLoaded', () => {
             subtitlePrivate.textContent = isPrivate ? "Privada" : "Pública";
         }
 
-        // Atualiza subtítulo ao mudar a chave de conta privada em tempo real
         togglePrivate.addEventListener("change", () => {
             if (subtitlePrivate) {
                 subtitlePrivate.textContent = togglePrivate.checked ? "Privada" : "Pública";
             }
         });
     }
+
+    // Carregar idioma salvo
+    const savedLang = localStorage.getItem("koneat_language") || "Português (Brasil)";
+    if (subtitleIdioma) subtitleIdioma.textContent = savedLang;
+    langRadios.forEach(radio => {
+        if (radio.value === savedLang) radio.checked = true;
+    });
+
+    // Abrir Modal de Idioma ao clicar no card
+    btnOpenIdioma?.addEventListener("click", () => {
+        modalIdioma?.classList.add("show");
+    });
+
+    // Fechar modal ao clicar fora dele
+    modalIdioma?.addEventListener("click", (e) => {
+        if (e.target === modalIdioma) {
+            modalIdioma.classList.remove("show");
+        }
+    });
+
+    // Selecionar idioma
+    langRadios.forEach(radio => {
+        radio.addEventListener("change", (e) => {
+            const chosenLang = e.target.value;
+            localStorage.setItem("koneat_language", chosenLang);
+            if (subtitleIdioma) subtitleIdioma.textContent = chosenLang;
+            setTimeout(() => {
+                modalIdioma?.classList.remove("show");
+            }, 250);
+        });
+    });
 
     if (saveConfigBtn) {
         saveConfigBtn.addEventListener("click", (e) => {
@@ -277,4 +312,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-        
