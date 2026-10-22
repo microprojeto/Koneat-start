@@ -244,13 +244,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveConfigBtn = document.getElementById("saveConfigBtn");
 
     if (toggleNotif && togglePrivate) {
-        // Carrega estados salvos
-        toggleNotif.checked = localStorage.getItem("koneat_notif_enabled") === "true";
-        const isPrivate = localStorage.getItem("koneat_private_account") === "true";
-        togglePrivate.checked = isPrivate;
-        if (subtitlePrivate) subtitlePrivate.textContent = isPrivate ? "Privada" : "Pública";
+        // Se for a primeira vez (null), assume true para notificações e false para conta privada
+        const savedNotif = localStorage.getItem("koneat_notif_enabled");
+        toggleNotif.checked = savedNotif === null ? true : (savedNotif === "true");
 
-        // Atualiza subtítulo ao mudar a chave de conta privada
+        const savedPrivate = localStorage.getItem("koneat_private_account");
+        const isPrivate = savedPrivate === "true";
+        togglePrivate.checked = isPrivate;
+        
+        if (subtitlePrivate) {
+            subtitlePrivate.textContent = isPrivate ? "Privada" : "Pública";
+        }
+
+        // Atualiza subtítulo ao mudar a chave de conta privada em tempo real
         togglePrivate.addEventListener("change", () => {
             if (subtitlePrivate) {
                 subtitlePrivate.textContent = togglePrivate.checked ? "Privada" : "Pública";
@@ -271,4 +277,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-                                 
+        
