@@ -65,8 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedTitleLink = localStorage.getItem("koneat_title_link") || "";
         const savedLocalizacao = localStorage.getItem("koneat_localizacao") || "";
         const savedWhatsapp = localStorage.getItem("koneat_whatsapp") || "";
+        const isPrivateAccount = localStorage.getItem("koneat_private_account") === "true";
 
-        if (headerUsername) headerUsername.textContent = cleanUsername;
+        if (headerUsername) {
+            headerUsername.textContent = cleanUsername + (isPrivateAccount ? " 🔒" : "");
+        }
         if (profileName) profileName.textContent = savedName;
         if (profileTag) profileTag.textContent = cleanUsername ? `@${cleanUsername}` : "";
         if (profileBio) profileBio.textContent = savedBio;
@@ -102,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     elWp.style.cssText = "display: block; color: #0066ff; text-decoration: none; font-size: 14px; font-weight: 600; margin-top: 4px;";
                     userDetailsBlock.appendChild(elWp);
                 }
-                // Limpa caracteres especiais para o link do whatsapp funcionar perfeitamente
                 const cleanWp = savedWhatsapp.replace(/\D/g, "");
                 elWp.href = `https://wa.me/55${cleanWp}`;
                 elWp.textContent = `💬 ${savedWhatsapp}`;
@@ -180,14 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateCounts();
 
-    // Abrir Modal Contato (Apenas WhatsApp)
     document.getElementById("btnOpenContato")?.addEventListener("click", () => {
         const inputWp = document.getElementById("inputWhatsapp");
         if (inputWp) inputWp.value = localStorage.getItem("koneat_whatsapp") || "";
         modalContato?.classList.add("show");
     });
 
-    // Abrir Modal Link
     document.getElementById("btnOpenLink")?.addEventListener("click", () => {
         const inputUrl = document.getElementById("inputUrlLink");
         const inputTitle = document.getElementById("inputTitleLink");
@@ -196,19 +196,16 @@ document.addEventListener('DOMContentLoaded', () => {
         modalLink?.classList.add("show");
     });
 
-    // Abrir Modal Localização
     document.getElementById("btnOpenLocal")?.addEventListener("click", () => {
         const inputLoc = document.getElementById("inputLocalizacao");
         if (inputLoc) inputLoc.value = localStorage.getItem("koneat_localizacao") || "";
         modalLocal?.classList.add("show");
     });
 
-    // Abrir Configurações de informações pessoais
     document.getElementById("btnOpenConfig")?.addEventListener("click", () => {
         window.location.href = "./configuracoes.html";
     });
 
-    // Fechar Modais
     document.querySelectorAll(".close-modal, .modal-overlay").forEach(el => {
         el.addEventListener("click", (e) => {
             if (e.target === el || el.classList.contains("close-modal")) {
@@ -217,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Salvar Contato (Apenas WhatsApp)
     document.getElementById("btnSaveContato")?.addEventListener("click", () => {
         const inputWp = document.getElementById("inputWhatsapp");
         localStorage.setItem("koneat_whatsapp", inputWp ? inputWp.value.trim() : "");
@@ -225,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 
-    // Salvar Link
     document.getElementById("btnSaveLink")?.addEventListener("click", () => {
         const inputUrl = document.getElementById("inputUrlLink");
         const inputTitle = document.getElementById("inputTitleLink");
@@ -235,12 +230,45 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 
-    // Salvar Localização
     document.getElementById("btnSaveLocal")?.addEventListener("click", () => {
         const inputLoc = document.getElementById("inputLocalizacao");
         localStorage.setItem("koneat_localizacao", inputLoc ? inputLoc.value.trim() : "");
         modalLocal?.classList.remove("show");
         updateCounts();
     });
-});
 
+    // 7. Lógica da Tela de Configurações (Notificações e Conta Privada)
+    const toggleNotif = document.getElementById("toggleNotif");
+    const togglePrivate = document.getElementById("togglePrivate");
+    const subtitlePrivate = document.getElementById("subtitlePrivate");
+    const saveConfigBtn = document.getElementById("saveConfigBtn");
+
+    if (toggleNotif && togglePrivate) {
+        // Carrega estados salvos
+        toggleNotif.checked = localStorage.getItem("koneat_notif_enabled") === "true";
+        const isPrivate = localStorage.getItem("koneat_private_account") === "true";
+        togglePrivate.checked = isPrivate;
+        if (subtitlePrivate) subtitlePrivate.textContent = isPrivate ? "Privada" : "Pública";
+
+        // Atualiza subtítulo ao mudar a chave de conta privada
+        togglePrivate.addEventListener("change", () => {
+            if (subtitlePrivate) {
+                subtitlePrivate.textContent = togglePrivate.checked ? "Privada" : "Pública";
+            }
+        });
+    }
+
+    if (saveConfigBtn) {
+        saveConfigBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (toggleNotif) {
+                localStorage.setItem("koneat_notif_enabled", toggleNotif.checked);
+            }
+            if (togglePrivate) {
+                localStorage.setItem("koneat_private_account", togglePrivate.checked);
+            }
+            window.location.href = "./passo1.html";
+        });
+    }
+});
+                                 
