@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koneat - Editar Perfil</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .private-info-hint {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-top: 4px;
+            margin-left: 4px;
+        }
+    </style>
 </head>
 <body class="light-theme">
 
     <div class="app-container">
         <!-- Header da Tela de Edição -->
         <header class="edit-header">
-            <a href="passo1.html" class="icon-btn" aria-label="Fechar">
+            <a href="./passo1.html" class="icon-btn" aria-label="Fechar">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -59,11 +67,13 @@
             <div class="edit-card-group">
                 <label for="editBirth">Data de nascimento</label>
                 <input type="text" id="editBirth" placeholder="DD/MM/AAAA">
+                <span class="private-info-hint">Somente você pode ver isso</span>
             </div>
 
             <div class="edit-card-group">
                 <label for="editGender">Gênero</label>
                 <input type="text" id="editGender" placeholder="Masculino ou feminino">
+                <span class="private-info-hint">Somente você pode ver isso</span>
             </div>
 
             <!-- Lista de Links Adicionais com IDs para as 4 funções reais -->
@@ -103,19 +113,19 @@
 
         <!-- Barra de Navegação Flutuante -->
         <nav class="bottom-nav">
-            <a href="busca.html" class="nav-item" aria-label="Buscar">
+            <a href="./busca.html" class="nav-item" aria-label="Buscar">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </a>
             
-            <a href="criar.html" class="nav-item" aria-label="Criar">
+            <a href="./criar.html" class="nav-item" aria-label="Criar">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </a>
 
-            <a href="reels.html" class="nav-item" aria-label="Vídeos">
+            <a href="./reels.html" class="nav-item" aria-label="Vídeos">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="4"></rect><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
             </a>
 
-            <a href="passo1.html" class="nav-item active profile-circle-active" aria-label="Perfil">
+            <a href="./passo1.html" class="nav-item active profile-circle-active" aria-label="Perfil">
                 <div class="nav-profile-wrapper">
                     <svg class="nav-icon-profile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -185,5 +195,5 @@
 
     <script src="js/app.js"></script>
 </body>
-                </html>
-                        
+    </html>
+                                                                   
