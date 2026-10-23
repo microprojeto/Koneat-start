@@ -311,4 +311,30 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = "./passo1.html";
         });
     }
+
+    // 8. Lógica da Tela de Minhas Atividades (atividades.html)
+    const statLinks = document.getElementById("statLinks");
+    const historyList = document.getElementById("historyList");
+    const btnClearHistory = document.getElementById("btnClearHistory");
+
+    if (statLinks) {
+        let linksCount = 0;
+        if (localStorage.getItem("koneat_whatsapp")) linksCount++;
+        if (localStorage.getItem("koneat_url_link")) linksCount++;
+        if (localStorage.getItem("koneat_localizacao")) linksCount++;
+        statLinks.textContent = linksCount;
+    }
+
+    if (btnClearHistory && historyList) {
+        btnClearHistory.addEventListener("click", () => {
+            if (confirm("Deseja realmente limpar o histórico de atividades local?")) {
+                historyList.innerHTML = `
+                    <div class="history-item" style="justify-content: center; color: #8e8e93; font-size: 13px; padding: 20px;">
+                        Nenhuma atividade recente registrada.
+                    </div>
+                `;
+            }
+        });
+    }
 });
+                
