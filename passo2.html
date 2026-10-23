@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koneat - Vídeos</title>
+    <title>Koneat - Vídeos Virais</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Fundo Fumê/Escuro exclusivo da tela de Vídeos */
+        /* Estilos da Tela de Vídeos Fumê com Scroll Vertical Estilo Reels */
         body.dark-video-theme {
             background-color: #000000;
             color: #ffffff;
@@ -15,17 +15,32 @@
             overflow: hidden;
         }
 
-        .video-container {
-            position: relative;
+        .reels-feed-container {
             width: 100vw;
             height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .reels-feed-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+
+        /* Cada Card de Vídeo em Tela Cheia */
+        .reel-card {
+            width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            background: #000000;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.8) 100%);
+            box-sizing: border-box;
         }
 
-        /* Topo da Tela de Vídeos */
+        /* Topo Fixo */
         .video-header {
             display: flex;
             justify-content: space-between;
@@ -35,7 +50,8 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 10;
+            z-index: 20;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
         }
 
         .video-header-title {
@@ -53,30 +69,35 @@
             padding: 4px;
         }
 
-        /* Centro com o botão de Play */
+        /* Botão Play Central Estilo Imagem de Referência */
         .video-center-play {
             position: absolute;
-            top: 50%;
+            top: 42%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(0, 0, 0, 0.4);
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
         }
 
-        /* Informações do Criador (Inferior Esquerdo) */
+        .video-center-play svg {
+            margin-left: 2px;
+        }
+
+        /* Informações do Criador (Inferior Esquerdo) - Acompanha o Scroll */
         .video-footer-info {
             position: absolute;
-            bottom: 90px;
-            left: 20px;
+            bottom: 80px;
+            left: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             z-index: 10;
         }
 
@@ -86,12 +107,22 @@
             gap: 10px;
         }
 
-        .creator-avatar {
-            width: 36px;
-            height: 36px;
+        .creator-avatar-circle {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #111111;
+        }
+
+        .creator-avatar-circle img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .creator-name {
@@ -105,50 +136,70 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
             color: #ffffff;
             padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
         }
 
-        /* Ações Laterais (Direita) */
+        /* Ações Laterais (Canto Inferior Direito) */
         .video-actions-sidebar {
             position: absolute;
             right: 16px;
-            bottom: 100px;
+            bottom: 85px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 22px;
             z-index: 10;
         }
 
         .action-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
             background: none;
             border: none;
             cursor: pointer;
             color: #ffffff;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            transition: transform 0.15s ease;
+        }
+
+        .action-item:active {
+            transform: scale(0.88);
         }
 
         .action-item svg {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
-        /* Menu Flutuante de 3 Barrinhas (Decisões) */
+        .action-item.liked svg {
+            fill: #e74c3c;
+            stroke: #e74c3c;
+        }
+
+        .action-item.saved svg {
+            fill: #ffffff;
+            stroke: #ffffff;
+        }
+
+        .action-item.reposted svg {
+            stroke: #00ff88;
+        }
+
+        /* Menu Flutuante Decisões (3 Barrinhas) */
         .dropdown-menu-decisions {
-            position: absolute;
-            top: 60px;
-            right: 20px;
+            position: fixed;
+            top: 50px;
+            right: 16px;
             background: #ffffff;
-            width: 220px;
+            width: 200px;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             display: none;
             flex-direction: column;
             padding: 8px 0;
@@ -163,9 +214,9 @@
         .decision-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            font-size: 15px;
+            gap: 10px;
+            padding: 10px 16px;
+            font-size: 14px;
             font-weight: 700;
             border-bottom: 1px solid #f0f0f0;
         }
@@ -173,18 +224,13 @@
         .decision-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            font-size: 14px;
+            gap: 10px;
+            padding: 10px 16px;
+            font-size: 13px;
             font-weight: 600;
             color: #333333;
             text-decoration: none;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .decision-item:hover {
-            background: #f8f9fa;
         }
 
         .decision-footer {
@@ -194,156 +240,164 @@
             border-top: 1px solid #f0f0f0;
         }
 
-        /* Barra de Navegação Inferior Estilizada (Fumê/Dark) */
-        .bottom-nav-bar {
+        /* Barra de Navegação Inferior Colada e Fixa */
+        .bottom-nav-fixed {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(20, 20, 20, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 90%;
-            max-width: 400px;
-            height: 64px;
-            border-radius: 32px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 62px;
+            background: #121214;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: space-around;
             z-index: 50;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            padding: 0 10px;
         }
 
-        .nav-icon-link {
+        .nav-link {
             background: none;
             border: none;
             cursor: pointer;
-            color: #888888;
+            color: #8e8e93;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-decoration: none;
             width: 48px;
             height: 48px;
-            border-radius: 50%;
-            text-decoration: none;
-            transition: 0.2s;
         }
 
-        .nav-icon-link.active-profile {
-            background: #ffffff;
-            color: #111111;
-        }
-
-        /* Estilo SVG do Vídeo ativo (Estilo Instagram: Quadrado branco com retângulo/play preto dentro) */
-        .nav-icon-link.active-video .video-svg-box {
+        /* Ícone de Vídeo Ativo (Estilo Instagram) */
+        .nav-link.active-video .video-box-filled {
             fill: #ffffff;
-            stroke: none;
         }
-        .nav-icon-link.active-video .video-svg-play {
-            fill: #000000;
+        .nav-link.active-video .video-play-inner {
+            fill: #121214;
         }
     </style>
 </head>
 <body class="dark-video-theme">
 
-    <div class="video-container">
-        
-        <!-- Topo: Título e Menu 3 Barrinhas -->
-        <header class="video-header">
-            <h1 class="video-header-title">Virais start</h1>
-            <button type="button" class="icon-btn-top" id="menuDecisionsBtn" aria-label="Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-        </header>
+    <!-- Header Fixo Superior -->
+    <header class="video-header">
+        <h1 class="video-header-title">Virais start</h1>
+        <button type="button" class="icon-btn-top" id="menuDecisionsBtn" aria-label="Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+    </header>
 
-        <!-- Menu Flutuante "Decisões" (Abre ao clicar nas 3 barrinhas) -->
-        <div class="dropdown-menu-decisions" id="dropdownDecisions">
-            <div class="decision-header">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                Decisões
-            </div>
-            <div class="decision-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-                Não tenho interesse
-            </div>
-            <div class="decision-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-                Denunciar
-            </div>
-            <div class="decision-item" style="color: #e74c3c;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                Bloquear
-            </div>
-            <div class="decision-footer">
-                Koneat start · 1.1.4
-            </div>
+    <!-- Menu Flutuante Decisões (3 Barrinhas) -->
+    <div class="dropdown-menu-decisions" id="dropdownDecisions">
+        <div class="decision-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Decisões
         </div>
-
-        <!-- Botão Play Central -->
-        <div class="video-center-play">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <div class="decision-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+            Não tenho interesse
         </div>
-
-        <!-- Perfil e Botão Seguir (Inferior Esquerdo) -->
-        <div class="video-footer-info">
-            <div class="creator-row">
-                <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=100" alt="Lobo" class="creator-avatar">
-                <span class="creator-name">Lobo</span>
-                <button type="button" class="btn-follow">Seguir</button>
-            </div>
+        <div class="decision-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+            Denunciar
         </div>
-
-        <!-- Ações Laterais (Direita) -->
-        <div class="video-actions-sidebar">
-            <button type="button" class="action-item" aria-label="Curtir">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            </button>
-            <button type="button" class="action-item" aria-label="Comentar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            </button>
-            <button type="button" class="action-item" aria-label="Repost">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
-            </button>
-            <button type="button" class="action-item" aria-label="Salvar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-            </button>
-            <button type="button" class="action-item" aria-label="Compartilhar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+        <div class="decision-item" style="color: #e74c3c;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            Bloquear
         </div>
-
-        <!-- Barra de Navegação Inferior Customizada -->
-        <nav class="bottom-nav-bar">
-            <!-- 1. Lupa (Pesquisa) -->
-            <a href="./pesquisa.html" class="nav-icon-link" aria-label="Explorar">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </a>
-
-            <!-- 2. Adicionar -->
-            <a href="./criar.html" class="nav-icon-link" aria-label="Criar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            </a>
-
-            <!-- 3. Vídeos (Ativo com o estilo Instagram: quadrado branco e play preto) -->
-            <a href="./passo2.html" class="nav-icon-link active-video" aria-label="Vídeos">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <!-- Quadrado externo estilo Instagram -->
-                    <rect class="video-svg-box" x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"></rect>
-                    <!-- Triângulo de Play interno -->
-                    <polygon class="video-svg-play" points="10,8 16,12 10,16" fill="currentColor"></polygon>
-                </svg>
-            </a>
-
-            <!-- 4. Perfil -->
-            <a href="./passo1.html" class="nav-icon-link" aria-label="Perfil">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </a>
-        </nav>
-
+        <div class="decision-footer">
+            Koneat start · 1.1.4
+        </div>
     </div>
 
-    <!-- Script para abrir/fechar o menu de 3 barrinhas -->
+    <!-- Feed de Vídeos Vertical com Arraste -->
+    <main class="reels-feed-container">
+
+        <!-- Vídeo 1: Lobo -->
+        <article class="reel-card" data-video-id="video_lobo">
+            
+            <div class="video-center-play">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><polygon points="6 3 18 12 6 21 6 3"></polygon></svg>
+            </div>
+
+            <!-- Informações do Criador -->
+            <div class="video-footer-info">
+                <div class="creator-row">
+                    <div class="creator-avatar-circle">
+                        <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=100" alt="Lobo">
+                    </div>
+                    <span class="creator-name">Lobo</span>
+                    <button type="button" class="btn-follow">Seguir</button>
+                </div>
+            </div>
+
+            <!-- Reações Verticais Direitas -->
+            <div class="video-actions-sidebar">
+                <!-- 1. Curtir -->
+                <button type="button" class="action-item btn-like" aria-label="Curtir">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+
+                <!-- 2. Comentar -->
+                <button type="button" class="action-item btn-comment" aria-label="Comentar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                </button>
+
+                <!-- 3. Repost (Setas Circulares) -->
+                <button type="button" class="action-item btn-repost" aria-label="Repostar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>
+                </button>
+
+                <!-- 4. Marcar / Salvar (Bandeira) -->
+                <button type="button" class="action-item btn-save" aria-label="Marcar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                </button>
+
+                <!-- 5. Compartilhar (Seta de Envio) -->
+                <button type="button" class="action-item btn-share" aria-label="Compartilhar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- Barra de Navegação Inferior Atualizada com Casinha (Home) -->
+    <nav class="bottom-nav-fixed">
+        <!-- 1. Home (Casinha) -->
+        <a href="./home.html" class="nav-link" aria-label="Home">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+        </a>
+
+        <!-- 2. Criar (+) -->
+        <a href="./criar.html" class="nav-link" aria-label="Criar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </a>
+
+        <!-- 3. Vídeos Virais (Ativo) -->
+        <a href="./passo2.html" class="nav-link active-video" aria-label="Vídeos">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <rect class="video-box-filled" x="2" y="2" width="20" height="20" rx="5" fill="#ffffff"></rect>
+                <polygon class="video-play-inner" points="10,8 16,12 10,16" fill="#121214"></polygon>
+            </svg>
+        </a>
+
+        <!-- 4. Perfil -->
+        <a href="./passo1.html" class="nav-link" aria-label="Perfil">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </a>
+    </nav>
+
+    <!-- Scripts de Interação -->
     <script>
+        // Menu de Decisões (3 barrinhas)
         const menuBtn = document.getElementById('menuDecisionsBtn');
         const dropdown = document.getElementById('dropdownDecisions');
 
@@ -357,7 +411,38 @@
                 dropdown.classList.remove('show');
             });
         }
+
+        // Lógica de Reações dos Vídeos (Curtir, Repost, Marcar)
+        document.querySelectorAll('.reel-card').forEach(card => {
+            const videoId = card.getAttribute('data-video-id');
+            const btnLike = card.querySelector('.btn-like');
+            const btnRepost = card.querySelector('.btn-repost');
+            const btnSave = card.querySelector('.btn-save');
+
+            // Carregar estado salvo
+            if (localStorage.getItem(`koneat_like_${videoId}`) === 'true') btnLike?.classList.add('liked');
+            if (localStorage.getItem(`koneat_repost_${videoId}`) === 'true') btnRepost?.classList.add('reposted');
+            if (localStorage.getItem(`koneat_save_${videoId}`) === 'true') btnSave?.classList.add('saved');
+
+            // Toggle Curtir
+            btnLike?.addEventListener('click', () => {
+                const isLiked = btnLike.classList.toggle('liked');
+                localStorage.setItem(`koneat_like_${videoId}`, isLiked);
+            });
+
+            // Toggle Repost
+            btnRepost?.addEventListener('click', () => {
+                const isReposted = btnRepost.classList.toggle('reposted');
+                localStorage.setItem(`koneat_repost_${videoId}`, isReposted);
+            });
+
+            // Toggle Marcar/Salvar
+            btnSave?.addEventListener('click', () => {
+                const isSaved = btnSave.classList.toggle('saved');
+                localStorage.setItem(`koneat_save_${videoId}`, isSaved);
+            });
+        });
     </script>
 </body>
-  </html>
-                                                                                                                     
+    </html>
+                                                                                                                                                                                                                                                        
