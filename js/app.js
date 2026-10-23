@@ -358,4 +358,56 @@ document.addEventListener('DOMContentLoaded', () => {
         if (infoBirth) infoBirth.textContent = savedBirth ? savedBirth : "Não informada";
         if (infoGender) infoGender.textContent = savedGender ? savedGender : "Não informado";
     }
+
+    // 10. Lógica do Modal de Deletar Conta com Validação de Senha/PIN (configuracoes.html)
+    const btnOpenDelete = document.getElementById("btnOpenDelete");
+    const modalDelete = document.getElementById("modalDelete");
+    const btnCancelDelete = document.getElementById("btnCancelDelete");
+    const btnConfirmDelete = document.getElementById("btnConfirmDelete");
+    const deleteConfirmPassword = document.getElementById("deleteConfirmPassword");
+    const deleteErrorMsg = document.getElementById("deleteErrorMsg");
+
+    if (btnOpenDelete && modalDelete) {
+        btnOpenDelete.addEventListener("click", () => {
+            if (deleteConfirmPassword) deleteConfirmPassword.value = "";
+            if (deleteErrorMsg) deleteErrorMsg.style.display = "none";
+            modalDelete.classList.add("show");
+        });
+
+        btnCancelDelete?.addEventListener("click", () => {
+            modalDelete.classList.remove("show");
+        });
+
+        modalDelete.addEventListener("click", (e) => {
+            if (e.target === modalDelete) {
+                modalDelete.classList.remove("show");
+            }
+        });
+
+        btnConfirmDelete?.addEventListener("click", () => {
+            const enteredPassword = deleteConfirmPassword ? deleteConfirmPassword.value.trim() : "";
+            const savedPassword = localStorage.getItem("koneat_password") || localStorage.getItem("kone_password") || "";
+
+            if (enteredPassword === "") {
+                if (deleteErrorMsg) {
+                    deleteErrorMsg.textContent = "Por favor, digite sua senha ou PIN.";
+                    deleteErrorMsg.style.display = "block";
+                }
+                return;
+            }
+
+            if (savedPassword && enteredPassword !== savedPassword) {
+                if (deleteErrorMsg) {
+                    deleteErrorMsg.textContent = "Senha / PIN incorreto. Tente novamente.";
+                    deleteErrorMsg.style.display = "block";
+                }
+                return;
+            }
+
+            // Se validado com sucesso, limpa os dados e redireciona
+            localStorage.clear();
+            alert("Sua conta foi apagada com sucesso.");
+            window.location.href = "./passo1.html";
+        });
+    }
 });
