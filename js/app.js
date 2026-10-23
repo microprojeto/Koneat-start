@@ -336,5 +336,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 9. Lógica da Tela de Informações da Conta (informacoes-conta.html)
+    const infoUsername = document.getElementById("infoUsername");
+    const infoName = document.getElementById("infoName");
+    const infoPrivacy = document.getElementById("infoPrivacy");
+    const infoBirth = document.getElementById("infoBirth");
+    const infoGender = document.getElementById("infoGender");
+
+    if (infoUsername || infoName) {
+        const rawUser = localStorage.getItem("koneat_username") || "";
+        const cleanUser = rawUser.replace("@", "").trim();
+        const savedName = localStorage.getItem("koneat_name") || "Usuário Koneat";
+        const isPrivate = localStorage.getItem("koneat_private_account") === "true";
+        const savedBirth = localStorage.getItem("koneat_birth") || "";
+        const savedGender = localStorage.getItem("koneat_gender") || "";
+
+        if (infoUsername) infoUsername.textContent = cleanUser ? `@${cleanUser}` : "@usuario";
+        if (infoName) infoName.textContent = savedName;
+        if (infoPrivacy) infoPrivacy.textContent = isPrivate ? "Privada" : "Pública";
+        if (infoBirth) infoBirth.textContent = savedBirth ? savedBirth : "Não informada";
+        if (infoGender) infoGender.textContent = savedGender ? savedGender : "Não informado";
+    }
 });
-                
