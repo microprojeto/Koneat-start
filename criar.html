@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneat - Criar Publicação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body.dark-create-theme {
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Topo: Fechar (X) + Seleção de Tipos (POST, STORY, VIRAIS) */
+        .create-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            z-index: 10;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .type-selector-tabs {
+            display: flex;
+            gap: 20px;
+        }
+
+        .type-tab {
+            background: none;
+            border: none;
+            color: #8e8e93;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+
+        .type-tab.active {
+            color: #ffffff;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        /* Subheader: Galeria + Múltipla escolha e Câmera */
+        .gallery-controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+        }
+
+        .btn-gallery-dropdown {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-circle-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #262626;
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Área Central Vazia */
+        .create-preview-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8e8e93;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Rodapé: Botão Avançar */
+        .create-footer-bar {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            background: #000000;
+        }
+
+        .btn-advance {
+            width: 85%;
+            max-width: 320px;
+            height: 44px;
+            background: #333333;
+            color: #8e8e93;
+            border: none;
+            border-radius: 22px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: not-allowed;
+            transition: 0.2s;
+        }
+
+        .btn-advance.active {
+            background: #ffffff;
+            color: #000000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="dark-create-theme">
+
+    <!-- Topo -->
+    <header class="create-header">
+        <a href="./passo1.html" class="btn-close" aria-label="Fechar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </a>
+
+        <!-- Abas POST / STORY / VIRAIS -->
+        <div class="type-selector-tabs">
+            <button type="button" class="type-tab active" data-type="post">POST</button>
+            <button type="button" class="type-tab" data-type="story">STORY</button>
+            <button type="button" class="type-tab" data-type="virais">VIRAIS</button>
+        </div>
+
+        <div style="width: 22px;"></div> <!-- Spacer para alinhamento das abas -->
+    </header>
+
+    <!-- Barra de Controle de Galeria -->
+    <div class="gallery-controls-bar">
+        <button type="button" class="btn-gallery-dropdown">
+            Galeria
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+
+        <div class="right-controls">
+            <button type="button" class="icon-circle-btn" aria-label="Seleção Múltipla">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M9 3v18"></path></svg>
+            </button>
+            <button type="button" class="icon-circle-btn" id="openCameraBtn" aria-label="Câmera">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Central Vazia de Prévia -->
+    <main class="create-preview-area" id="previewContainer">
+        <span id="previewText">Crie um post</span>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="create-footer-bar">
+        <button type="button" class="btn-advance" id="btnAdvance">Avançar</button>
+    </footer>
+
+    <!-- Input Oculto de Arquivo -->
+    <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;">
+
+    <script>
+        let selectedType = 'post';
+        let mediaFile = null;
+
+        const tabs = document.querySelectorAll('.type-tab');
+        const previewText = document.getElementById('previewText');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const btnAdvance = document.getElementById('btnAdvance');
+        const openCameraBtn = document.getElementById('openCameraBtn');
+
+        // Alternar abas (POST, STORY, VIRAIS)
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                selectedType = tab.getAttribute('data-type');
+                
+                if (selectedType === 'post') previewText.textContent = 'Crie um post';
+                if (selectedType === 'story') previewText.textContent = 'Crie um story';
+                if (selectedType === 'virais') previewText.textContent = 'Crie um vídeo viral';
+            });
+        });
+
+        // Clique na área central ou no ícone da câmera para abrir a galeria
+        previewContainer.addEventListener('click', () => fileInput.click());
+        openCameraBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const fileUrl = URL.createObjectURL(file);
+            const isVideo = file.type.startsWith('video');
+
+            if (isVideo) {
+                previewContainer.innerHTML = `<video src="${fileUrl}" controls style="max-width: 100%; max-height: 100%; object-fit: contain;"></video>`;
+            } else {
+                previewContainer.innerHTML = `<img src="${fileUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" />`;
+            }
+
+            mediaFile = { url: fileUrl, type: isVideo ? 'video' : 'image' };
+            btnAdvance.classList.add('active');
+        });
+
+        // Publicar e Redirecionar
+        btnAdvance.addEventListener('click', () => {
+            if (!mediaFile) return;
+
+            if (selectedType === 'virais' || mediaFile.type === 'video') {
+                // Se for vídeo ou marcado como VIRAIS, redireciona para a tela de vídeos (passo2.html)
+                const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
+                currentVirais.unshift({ id: 'video_' + Date.now(), url: mediaFile.url, author: 'Koneat User' });
+                localStorage.setItem('koneat_virais_feed', JSON.stringify(currentVirais));
+                window.location.href = './passo2.html';
+            } else {
+                // Se for foto/imagem, redireciona para o perfil do usuário (passo1.html)
+                const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
+                userPosts.unshift({ id: 'post_' + Date.now(), url: mediaFile.url, type: mediaFile.type });
+                localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
+                window.location.href = './passo1.html';
+            }
+        });
+    </script>
+</body>
+  </html>
+                                                                                                                                          
