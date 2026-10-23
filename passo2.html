@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneat - Vídeos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Fundo Fumê/Escuro exclusivo da tela de Vídeos */
+        body.dark-video-theme {
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.8) 100%);
+        }
+
+        /* Topo da Tela de Vídeos */
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .video-header-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 auto;
+        }
+
+        .icon-btn-top {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #ffffff;
+            padding: 4px;
+        }
+
+        /* Centro com o botão de Play */
+        .video-center-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Informações do Criador (Inferior Esquerdo) */
+        .video-footer-info {
+            position: absolute;
+            bottom: 90px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .creator-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .creator-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .creator-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .btn-follow {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Ações Laterais (Direita) */
+        .video-actions-sidebar {
+            position: absolute;
+            right: 16px;
+            bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .action-item svg {
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        /* Menu Flutuante de 3 Barrinhas (Decisões) */
+        .dropdown-menu-decisions {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: #ffffff;
+            width: 220px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            padding: 8px 0;
+            z-index: 100;
+            color: #000000;
+        }
+
+        .dropdown-menu-decisions.show {
+            display: flex;
+        }
+
+        .decision-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .decision-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .decision-item:hover {
+            background: #f8f9fa;
+        }
+
+        .decision-footer {
+            padding: 8px 16px;
+            font-size: 11px;
+            color: #8e8e93;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* Barra de Navegação Inferior Estilizada (Fumê/Dark) */
+        .bottom-nav-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 400px;
+            height: 64px;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 50;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-icon-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .nav-icon-link.active-profile {
+            background: #ffffff;
+            color: #111111;
+        }
+
+        /* Estilo SVG do Vídeo ativo (Estilo Instagram: Quadrado branco com retângulo/play preto dentro) */
+        .nav-icon-link.active-video .video-svg-box {
+            fill: #ffffff;
+            stroke: none;
+        }
+        .nav-icon-link.active-video .video-svg-play {
+            fill: #000000;
+        }
+    </style>
+</head>
+<body class="dark-video-theme">
+
+    <div class="video-container">
+        
+        <!-- Topo: Título e Menu 3 Barrinhas -->
+        <header class="video-header">
+            <h1 class="video-header-title">Virais start</h1>
+            <button type="button" class="icon-btn-top" id="menuDecisionsBtn" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </header>
+
+        <!-- Menu Flutuante "Decisões" (Abre ao clicar nas 3 barrinhas) -->
+        <div class="dropdown-menu-decisions" id="dropdownDecisions">
+            <div class="decision-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                Decisões
+            </div>
+            <div class="decision-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                Não tenho interesse
+            </div>
+            <div class="decision-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                Denunciar
+            </div>
+            <div class="decision-item" style="color: #e74c3c;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                Bloquear
+            </div>
+            <div class="decision-footer">
+                Koneat start · 1.1.4
+            </div>
+        </div>
+
+        <!-- Botão Play Central -->
+        <div class="video-center-play">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+
+        <!-- Perfil e Botão Seguir (Inferior Esquerdo) -->
+        <div class="video-footer-info">
+            <div class="creator-row">
+                <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=100" alt="Lobo" class="creator-avatar">
+                <span class="creator-name">Lobo</span>
+                <button type="button" class="btn-follow">Seguir</button>
+            </div>
+        </div>
+
+        <!-- Ações Laterais (Direita) -->
+        <div class="video-actions-sidebar">
+            <button type="button" class="action-item" aria-label="Curtir">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </button>
+            <button type="button" class="action-item" aria-label="Comentar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </button>
+            <button type="button" class="action-item" aria-label="Repost">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+            </button>
+            <button type="button" class="action-item" aria-label="Salvar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            </button>
+            <button type="button" class="action-item" aria-label="Compartilhar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
+
+        <!-- Barra de Navegação Inferior Customizada -->
+        <nav class="bottom-nav-bar">
+            <!-- 1. Lupa (Pesquisa) -->
+            <a href="./pesquisa.html" class="nav-icon-link" aria-label="Explorar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </a>
+
+            <!-- 2. Adicionar -->
+            <a href="./criar.html" class="nav-icon-link" aria-label="Criar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </a>
+
+            <!-- 3. Vídeos (Ativo com o estilo Instagram: quadrado branco e play preto) -->
+            <a href="./passo2.html" class="nav-icon-link active-video" aria-label="Vídeos">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <!-- Quadrado externo estilo Instagram -->
+                    <rect class="video-svg-box" x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"></rect>
+                    <!-- Triângulo de Play interno -->
+                    <polygon class="video-svg-play" points="10,8 16,12 10,16" fill="currentColor"></polygon>
+                </svg>
+            </a>
+
+            <!-- 4. Perfil -->
+            <a href="./passo1.html" class="nav-icon-link" aria-label="Perfil">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- Script para abrir/fechar o menu de 3 barrinhas -->
+    <script>
+        const menuBtn = document.getElementById('menuDecisionsBtn');
+        const dropdown = document.getElementById('dropdownDecisions');
+
+        if (menuBtn && dropdown) {
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                dropdown.classList.remove('show');
+            });
+        }
+    </script>
+</body>
+  </html>
+                                                                                                                     
