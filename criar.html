@@ -346,7 +346,6 @@
             const fileUrl = URL.createObjectURL(file);
             const isVideo = file.type.startsWith('video');
 
-            // PRÉVIA COM SOM ATIVADO E CONTROLES VISÍVEIS
             if (isVideo) {
                 previewContainer.innerHTML = `<video src="${fileUrl}" controls autoplay playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>`;
             } else {
@@ -372,32 +371,37 @@
 
             loadingOverlay.classList.add('show');
             const caption = postCaptionInput.value.trim();
+            const uniqueId = 'post_' + Date.now();
 
             setTimeout(() => {
-                if (selectedType === 'virais' || mediaFile.type === 'video') {
+                const postData = {
+                    id: uniqueId,
+                    url: mediaFile.url,
+                    type: mediaFile.type,
+                    author: 'Eributtler',
+                    caption: caption
+                };
+
+                // 1. Salva sempre no Perfil (passo1.html - aba Todos)
+                const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
+                userPosts.unshift(postData);
+                localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
+
+                // 2. Se for vídeo ou postado na aba virais, salva também no Feed Viral (passo2.html)
+                if (mediaFile.type === 'video' || selectedType === 'virais') {
                     const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
-                    currentVirais.unshift({ 
-                        id: 'video_' + Date.now(), 
-                        url: mediaFile.url, 
-                        author: 'Eributtler',
-                        caption: caption 
-                    });
+                    currentVirais.unshift(postData);
                     localStorage.setItem('koneat_virais_feed', JSON.stringify(currentVirais));
+                }
+
+                // Redireciona para o feed viral ou perfil conforme o tipo
+                if (mediaFile.type === 'video' || selectedType === 'virais') {
                     window.location.href = './passo2.html';
                 } else {
-                    const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
-                    userPosts.unshift({ 
-                        id: 'post_' + Date.now(), 
-                        url: mediaFile.url, 
-                        type: mediaFile.type,
-                        caption: caption 
-                    });
-                    localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
                     window.location.href = './passo1.html';
                 }
             }, 1800);
         });
     </script>
 </body>
-    </html>
-    
+</html>
