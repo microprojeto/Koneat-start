@@ -78,12 +78,14 @@
             aspect-ratio: 1 / 1;
             background: #222222;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .post-grid-item img, .post-grid-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none; /* Deixa o clique passar para o container abrir o vídeo */
         }
 
         .post-grid-item .badge-video {
@@ -224,7 +226,7 @@
             </button>
         </nav>
 
-        <!-- Área Vazia / Feed Painel (Com ID no botão de criar para troca dinâmica de texto) -->
+        <!-- Área Vazia / Feed Painel -->
         <section class="feed-empty-state" id="emptyState">
             <div class="empty-icon-wrapper">
                 <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
@@ -282,7 +284,6 @@
 
             postsCount.textContent = userPosts.length;
 
-            // Altera dinamicamente o texto do botão conforme a quantidade de posts
             if (createPostBtn) {
                 if (userPosts.length === 0) {
                     createPostBtn.textContent = 'Crie seu primeiro post';
@@ -302,9 +303,9 @@
                 postsGrid.innerHTML = userPosts.map(post => {
                     const isVideo = post.type === 'video';
                     return `
-                        <div class="post-grid-item" data-id="${post.id}">
+                        <div class="post-grid-item" data-id="${post.id}" onclick="openPost('${post.id}')">
                             <!-- Ícone da Lixeira 🗑️ -->
-                            <button type="button" class="btn-delete-post" onclick="deletePost('${post.id}')" title="Excluir publicação">
+                            <button type="button" class="btn-delete-post" onclick="event.stopPropagation(); deletePost('${post.id}')" title="Excluir publicação">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="3 6 5 6 21 6"></polyline>
                                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -312,7 +313,7 @@
                             </button>
 
                             ${isVideo ? 
-                                `<video src="${post.url}"></video>
+                                `<video src="${post.url}" autoplay loop muted playsinline></video>
                                  <div class="badge-video">
                                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                                  </div>` 
@@ -323,27 +324,28 @@
             }
         }
 
+        // Ao clicar no card do vídeo no perfil, direciona para o feed viral reproduzir
+        function openPost(postId) {
+            window.location.href = './passo2.html';
+        }
+
         // Função para Deletar a Publicação ao Clicar na Lixeira 🗑️
         function deletePost(postId) {
             if (!confirm('Deseja realmente excluir esta publicação?')) return;
 
-            // 1. Remove do perfil
             let userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
             userPosts = userPosts.filter(p => p.id !== postId);
             localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
 
-            // 2. Remove do feed viral
             let viraisFeed = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
             viraisFeed = viraisFeed.filter(v => v.id !== postId);
             localStorage.setItem('koneat_virais_feed', JSON.stringify(viraisFeed));
 
-            // 3. Atualiza a tela instantaneamente
             renderUserPosts();
         }
 
-        // Inicializar carregamento ao abrir a página
         renderUserPosts();
     </script>
 </body>
                     </html>
-                    
+    
