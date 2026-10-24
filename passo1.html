@@ -94,6 +94,34 @@
             padding: 3px;
             border-radius: 4px;
             display: flex;
+            z-index: 2;
+        }
+
+        /* Botão de Lixeira (🗑️) Discreto no Canto do Card */
+        .btn-delete-post {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .btn-delete-post:hover {
+            background: rgba(231, 76, 60, 0.9); /* Vermelho ao passar o mouse */
+        }
+
+        .btn-delete-post:active {
+            transform: scale(0.9);
         }
     </style>
 </head>
@@ -248,34 +276,68 @@
 
     <script src="js/app.js"></script>
     <script>
-        // Carrega as publicações no perfil
-        const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
-        const postsGrid = document.getElementById('userPostsGrid');
-        const emptyState = document.getElementById('emptyState');
-        const postsCount = document.getElementById('postsCount');
+        // Função para Renderizar Posts e Lixeira
+        function renderUserPosts() {
+            const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
+            const postsGrid = document.getElementById('userPostsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const postsCount = document.getElementById('postsCount');
 
-        if (userPosts.length > 0) {
-            emptyState.style.display = 'none';
-            postsGrid.style.display = 'grid';
             postsCount.textContent = userPosts.length;
 
-            postsGrid.innerHTML = userPosts.map(post => {
-                if (post.type === 'video') {
+            if (userPosts.length === 0) {
+                emptyState.style.display = 'flex';
+                postsGrid.style.display = 'none';
+                postsGrid.innerHTML = '';
+            } else {
+                emptyState.style.display = 'none';
+                postsGrid.style.display = 'grid';
+
+                postsGrid.innerHTML = userPosts.map(post => {
+                    const isVideo = post.type === 'video';
                     return `
-                        <div class="post-grid-item">
-                            <video src="${post.url}"></video>
-                            <div class="badge-video">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                            </div>
+                        <div class="post-grid-item" data-id="${post.id}">
+                            <!-- Ícone da Lixeira 🗑️ (Só aparece quando existe post) -->
+                            <button type="button" class="btn-delete-post" onclick="deletePost('${post.id}')" title="Excluir publicação">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+
+                            ${isVideo ? 
+                                `<video src="${post.url}"></video>
+                                 <div class="badge-video">
+                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                 </div>` 
+                                : `<img src="${post.url}" alt="Post">`
+                            }
                         </div>`;
-                } else {
-                    return `
-                        <div class="post-grid-item">
-                            <img src="${post.url}" alt="Post">
-                        </div>`;
-                }
-            }).join('');
+                }).join('');
+            }
         }
+
+        // Função para Deletar a Publicação ao Clicar na Lixeira 🗑️
+        function deletePost(postId) {
+            if (!confirm('Deseja realmente excluir esta publicação?')) return;
+
+            // 1. Remove das mídias do usuário
+            let userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
+            userPosts = userPosts.filter(p => p.id !== postId);
+            localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
+
+            // 2. Se for um vídeo viral, remove também do feed de vídeos
+            let viraisFeed = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
+            viraisFeed = viraisFeed.filter(v => v.id !== postId);
+            localStorage.setItem('koneat_virais_feed', JSON.stringify(viraisFeed));
+
+            // 3. Atualiza a tela em tempo real
+            renderUserPosts();
+        }
+
+        // Inicializar o carregamento ao abrir a tela
+        renderUserPosts();
     </script>
 </body>
-</html>
+    </html>
+                
