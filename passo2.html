@@ -115,6 +115,24 @@
             object-fit: cover;
         }
 
+        /* Barra de Progresso Cinza do Vídeo na Base */
+        .video-progress-bar-container {
+            position: absolute;
+            bottom: 62px; /* Posicionada exatamente na base do vídeo, logo acima da nav inferior */
+            left: 0;
+            right: 0;
+            height: 2.5px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 20;
+        }
+
+        .video-progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #d1d1d6; /* Cor cinza claro elegante estilo Instagram */
+            transition: width 0.1s linear;
+        }
+
         /* Informações do Criador Real (Canto Inferior Esquerdo) - Acompanha o Scroll */
         .video-footer-info {
             position: absolute;
@@ -412,6 +430,11 @@
                         <article class="reel-card" data-video-id="${item.id}">
                             <video class="reel-video-element" src="${item.url}" autoplay loop muted playsinline></video>
 
+                            <!-- Barra de Progresso Cinza do Vídeo na Base -->
+                            <div class="video-progress-bar-container">
+                                <div class="video-progress-bar-fill"></div>
+                            </div>
+
                             <!-- Informações do Perfil do Criador Real -->
                             <div class="video-footer-info">
                                 <div class="creator-row">
@@ -457,8 +480,18 @@
                     `;
                 }).join('');
 
-                // Ativar escutadores das reações
+                // Atualizar progresso do vídeo dinamicamente e escutadores de reações
                 document.querySelectorAll('.reel-card').forEach(card => {
+                    const video = card.querySelector('.reel-video-element');
+                    const progressFill = card.querySelector('.video-progress-bar-fill');
+
+                    video?.addEventListener('timeupdate', () => {
+                        if (video.duration) {
+                            const percent = (video.currentTime / video.duration) * 100;
+                            if (progressFill) progressFill.style.width = `${percent}%`;
+                        }
+                    });
+
                     const videoId = card.getAttribute('data-video-id');
                     const btnLike = card.querySelector('.btn-like');
                     const btnRepost = card.querySelector('.btn-repost');
