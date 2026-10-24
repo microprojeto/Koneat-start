@@ -31,7 +31,7 @@
             display: none;
         }
 
-        /* Header Superior Dinâmico (Sobe e esconde no scroll) */
+        /* Header Superior Dinâmico com Divisão Transparente Sutil */
         .video-header {
             position: fixed;
             top: 0;
@@ -43,7 +43,9 @@
             justify-content: space-between;
             padding: 0 16px;
             z-index: 50;
-            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linha sutil de divisão */
             transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
         }
 
@@ -78,6 +80,21 @@
             justify-content: center;
         }
 
+        /* Estado Vazio Totalmente Limpo */
+        .empty-feed-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8e8e93;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            pointer-events: none;
+            user-select: none;
+        }
+
         /* Card de Vídeo Tela Cheia */
         .reel-card {
             width: 100vw;
@@ -92,40 +109,13 @@
             box-sizing: border-box;
         }
 
-        /* Texto de Orientação Central (Cinza) */
-        .empty-viral-placeholder {
-            color: #8e8e93;
-            font-size: 15px;
-            font-weight: 500;
-            text-align: center;
-            pointer-events: none;
-            user-select: none;
-            z-index: 2;
+        .reel-video-element {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        /* Botão Play Central */
-        .video-center-play {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(255, 255, 255, 0.8);
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .video-center-play svg {
-            margin-left: 2px;
-        }
-
-        /* Informações do Criador (Canto Inferior Esquerdo) - Acompanha o Vídeo no Scroll */
+        /* Informações do Criador Real (Canto Inferior Esquerdo) - Acompanha o Scroll */
         .video-footer-info {
             position: absolute;
             bottom: 80px;
@@ -167,17 +157,18 @@
         }
 
         .btn-follow {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.6);
             color: #ffffff;
-            padding: 4px 12px;
-            border-radius: 10px;
+            padding: 4px 14px;
+            border-radius: 12px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
+            backdrop-filter: blur(4px);
         }
 
-        /* Ações Laterais Reações (Canto Inferior Direito) - Acompanha o Vídeo no Scroll */
+        /* Ações Laterais Reações (Canto Inferior Direito) - Acompanha o Scroll */
         .video-actions-sidebar {
             position: absolute;
             right: 16px;
@@ -318,7 +309,7 @@
 </head>
 <body class="dark-video-theme">
 
-    <!-- Header Fixo Superior (Com Título, Busca e Menu) -->
+    <!-- Header Fixo Superior (Com Título, Busca, Menu e Divisão Sutil) -->
     <header class="video-header" id="mainHeader">
         <h1 class="video-header-title">Virais start</h1>
         <div class="header-actions-right">
@@ -356,56 +347,7 @@
 
     <!-- Feed de Vídeos Vertical com Arraste -->
     <main class="reels-feed-container" id="reelsContainer">
-
-        <!-- Vídeo 1 (Lobo) -->
-        <article class="reel-card" data-video-id="video_lobo">
-            
-            <span class="empty-viral-placeholder">Os vídeos virais aparecerão aqui.</span>
-
-            <div class="video-center-play">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><polygon points="6 3 18 12 6 21 6 3"></polygon></svg>
-            </div>
-
-            <!-- Informações do Criador (Sobe junto com este vídeo) -->
-            <div class="video-footer-info">
-                <div class="creator-row">
-                    <div class="creator-avatar-circle">
-                        <img src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=100" alt="Lobo">
-                    </div>
-                    <span class="creator-name">Lobo</span>
-                    <button type="button" class="btn-follow">Seguir</button>
-                </div>
-            </div>
-
-            <!-- Reações Laterais Direitas (Sobe junto com este vídeo) -->
-            <div class="video-actions-sidebar">
-                <!-- 1. Curtir -->
-                <button type="button" class="action-item btn-like" aria-label="Curtir">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                </button>
-
-                <!-- 2. Comentar -->
-                <button type="button" class="action-item btn-comment" aria-label="Comentar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                </button>
-
-                <!-- 3. Repost -->
-                <button type="button" class="action-item btn-repost" aria-label="Repostar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>
-                </button>
-
-                <!-- 4. Marcar -->
-                <button type="button" class="action-item btn-save" aria-label="Marcar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                </button>
-
-                <!-- 5. Compartilhar -->
-                <button type="button" class="action-item btn-share" aria-label="Compartilhar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-            </div>
-        </article>
-
+        <!-- Renderizado dinamicamente via JS -->
     </main>
 
     <!-- Barra de Navegação Inferior Fixa -->
@@ -439,10 +381,10 @@
 
     <!-- Scripts de Interação -->
     <script>
-        // Lógica do Header (Esconde ao rolar para baixo / Aparece no topo)
         const reelsContainer = document.getElementById('reelsContainer');
         const mainHeader = document.getElementById('mainHeader');
 
+        // Esconder/Mostrar Header no Scroll
         reelsContainer.addEventListener('scroll', () => {
             if (reelsContainer.scrollTop > 50) {
                 mainHeader.classList.add('hidden');
@@ -451,7 +393,96 @@
             }
         });
 
-        // Menu de Decisões (3 barrinhas)
+        // Carregar vídeos reais salvos
+        function renderViraisFeed() {
+            const viraisFeed = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
+
+            if (viraisFeed.length === 0) {
+                // Estado Inicial: Sem posts, sem fakes, apenas mensagem no meio
+                reelsContainer.innerHTML = `<div class="empty-feed-wrapper">Os vídeos virais aparecerão aqui.</div>`;
+            } else {
+                // Renderiza os vídeos reais postados
+                reelsContainer.innerHTML = viraisFeed.map((item) => {
+                    const isLiked = localStorage.getItem(`koneat_like_${item.id}`) === 'true';
+                    const isReposted = localStorage.getItem(`koneat_repost_${item.id}`) === 'true';
+                    const isSaved = localStorage.getItem(`koneat_save_${item.id}`) === 'true';
+                    const authorName = item.author || 'Eributtler';
+
+                    return `
+                        <article class="reel-card" data-video-id="${item.id}">
+                            <video class="reel-video-element" src="${item.url}" autoplay loop muted playsinline></video>
+
+                            <!-- Informações do Perfil do Criador Real -->
+                            <div class="video-footer-info">
+                                <div class="creator-row">
+                                    <div class="creator-avatar-circle">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    </div>
+                                    <span class="creator-name">${authorName}</span>
+                                    <button type="button" class="btn-follow">Seguir</button>
+                                </div>
+                            </div>
+
+                            <!-- Reações Laterais Direitas (Com Seta Curvada ↪️ Correta de Compartilhar) -->
+                            <div class="video-actions-sidebar">
+                                <!-- 1. Curtir -->
+                                <button type="button" class="action-item btn-like ${isLiked ? 'liked' : ''}" aria-label="Curtir">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                </button>
+
+                                <!-- 2. Comentar -->
+                                <button type="button" class="action-item btn-comment" aria-label="Comentar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                </button>
+
+                                <!-- 3. Repost (Setas Circulares) -->
+                                <button type="button" class="action-item btn-repost ${isReposted ? 'reposted' : ''}" aria-label="Repostar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>
+                                </button>
+
+                                <!-- 4. Marcar (Bandeira) -->
+                                <button type="button" class="action-item btn-save ${isSaved ? 'saved' : ''}" aria-label="Marcar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                </button>
+
+                                <!-- 5. Compartilhar (Seta Curvada para Direita) -->
+                                <button type="button" class="action-item btn-share" aria-label="Compartilhar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 12v-1a7 7 0 0 1 7-7h9"></path>
+                                        <polyline points="16 8 20 4 16 0"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                // Ativar escutadores das reações
+                document.querySelectorAll('.reel-card').forEach(card => {
+                    const videoId = card.getAttribute('data-video-id');
+                    const btnLike = card.querySelector('.btn-like');
+                    const btnRepost = card.querySelector('.btn-repost');
+                    const btnSave = card.querySelector('.btn-save');
+
+                    btnLike?.addEventListener('click', () => {
+                        const isLiked = btnLike.classList.toggle('liked');
+                        localStorage.setItem(`koneat_like_${videoId}`, isLiked);
+                    });
+
+                    btnRepost?.addEventListener('click', () => {
+                        const isReposted = btnRepost.classList.toggle('reposted');
+                        localStorage.setItem(`koneat_repost_${videoId}`, isReposted);
+                    });
+
+                    btnSave?.addEventListener('click', () => {
+                        const isSaved = btnSave.classList.toggle('saved');
+                        localStorage.setItem(`koneat_save_${videoId}`, isSaved);
+                    });
+                });
+            }
+        }
+
+        // Menu Decisões (3 barrinhas)
         const menuBtn = document.getElementById('menuDecisionsBtn');
         const dropdown = document.getElementById('dropdownDecisions');
 
@@ -466,33 +497,8 @@
             });
         }
 
-        // Lógica de Reações dos Vídeos
-        document.querySelectorAll('.reel-card').forEach(card => {
-            const videoId = card.getAttribute('data-video-id');
-            const btnLike = card.querySelector('.btn-like');
-            const btnRepost = card.querySelector('.btn-repost');
-            const btnSave = card.querySelector('.btn-save');
-
-            if (localStorage.getItem(`koneat_like_${videoId}`) === 'true') btnLike?.classList.add('liked');
-            if (localStorage.getItem(`koneat_repost_${videoId}`) === 'true') btnRepost?.classList.add('reposted');
-            if (localStorage.getItem(`koneat_save_${videoId}`) === 'true') btnSave?.classList.add('saved');
-
-            btnLike?.addEventListener('click', () => {
-                const isLiked = btnLike.classList.toggle('liked');
-                localStorage.setItem(`koneat_like_${videoId}`, isLiked);
-            });
-
-            btnRepost?.addEventListener('click', () => {
-                const isReposted = btnRepost.classList.toggle('reposted');
-                localStorage.setItem(`koneat_repost_${videoId}`, isReposted);
-            });
-
-            btnSave?.addEventListener('click', () => {
-                const isSaved = btnSave.classList.toggle('saved');
-                localStorage.setItem(`koneat_save_${videoId}`, isSaved);
-            });
-        });
+        // Inicializar renderização
+        renderViraisFeed();
     </script>
 </body>
-        </html>
-    
+</html>
