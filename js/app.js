@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let elWp = document.getElementById("profileWpDisplay");
             let elLoc = document.getElementById("profileLocDisplay");
 
-            // Exibir Link do Site
             if (savedUrlLink) {
                 if (!elLink) {
                     elLink = document.createElement("a");
@@ -96,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 elLink.remove();
             }
 
-            // Exibir WhatsApp Clicável
             if (savedWhatsapp) {
                 if (!elWp) {
                     elWp = document.createElement("a");
@@ -112,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 elWp.remove();
             }
 
-            // Exibir Localização
             if (savedLocalizacao) {
                 if (!elLoc) {
                     elLoc = document.createElement("p");
@@ -237,13 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCounts();
     });
 
-    // 7. Lógica da Tela de Configurações (Notificações, Conta Privada e Idioma)
+    // 7. Lógica da Tela de Configurações
     const toggleNotif = document.getElementById("toggleNotif");
     const togglePrivate = document.getElementById("togglePrivate");
     const subtitlePrivate = document.getElementById("subtitlePrivate");
     const saveConfigBtn = document.getElementById("saveConfigBtn");
 
-    // Elementos do Modal de Idioma
     const btnOpenIdioma = document.getElementById("btnOpenIdioma");
     const modalIdioma = document.getElementById("modalIdioma");
     const subtitleIdioma = document.getElementById("subtitleIdioma");
@@ -268,26 +264,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Carregar idioma salvo
     const savedLang = localStorage.getItem("koneat_language") || "Português (Brasil)";
     if (subtitleIdioma) subtitleIdioma.textContent = savedLang;
     langRadios.forEach(radio => {
         if (radio.value === savedLang) radio.checked = true;
     });
 
-    // Abrir Modal de Idioma ao clicar no card
     btnOpenIdioma?.addEventListener("click", () => {
         modalIdioma?.classList.add("show");
     });
 
-    // Fechar modal ao clicar fora dele
     modalIdioma?.addEventListener("click", (e) => {
         if (e.target === modalIdioma) {
             modalIdioma.classList.remove("show");
         }
     });
 
-    // Selecionar idioma
     langRadios.forEach(radio => {
         radio.addEventListener("change", (e) => {
             const chosenLang = e.target.value;
@@ -312,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 8. Lógica da Tela de Minhas Atividades (atividades.html)
+    // 8. Lógica da Tela de Minhas Atividades
     const statLinks = document.getElementById("statLinks");
     const historyList = document.getElementById("historyList");
     const btnClearHistory = document.getElementById("btnClearHistory");
@@ -337,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 9. Lógica da Tela de Informações da Conta (informacoes-conta.html)
+    // 9. Lógica da Tela de Informações da Conta
     const infoUsername = document.getElementById("infoUsername");
     const infoName = document.getElementById("infoName");
     const infoPrivacy = document.getElementById("infoPrivacy");
@@ -359,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (infoGender) infoGender.textContent = savedGender ? savedGender : "Não informado";
     }
 
-    // 10. Lógica do Modal de Deletar Conta com Validação de Senha/PIN (configuracoes.html)
+    // 10. Lógica do Modal de Deletar Conta
     const btnOpenDelete = document.getElementById("btnOpenDelete");
     const modalDelete = document.getElementById("modalDelete");
     const btnCancelDelete = document.getElementById("btnCancelDelete");
@@ -404,10 +396,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Se validado com sucesso, limpa os dados e redireciona
             localStorage.clear();
             alert("Sua conta foi apagada com sucesso.");
             window.location.href = "./passo1.html";
         });
     }
+
+    // 11. Renderização e Dinâmica de Posts no Perfil (passo1.html)
+    const postsGrid = document.getElementById('userPostsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const postsCount = document.getElementById('postsCount');
+    const createPostBtn = document.getElementById('createPostBtn');
+
+    if (postsGrid || emptyState) {
+        renderUserPosts();
+    }
 });
+
+// Função Global para Renderizar o Grid de Posts do Perfil
+function renderUserPosts() {
+    const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
+    const postsGrid = document.getElementById('userPostsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const postsCount = document.getElementById('postsCount');
+    const createPostBtn = document.getElementById('createPostBtn');
+
+    if (postsCount) postsCount.textContent = userPosts.length;
+
+    if (createPostBtn) {
+        if (userPosts.length === 0) {
+            createPostBtn.textContent = 'Crie seu primeiro post';
+        } else {
+            createPostBtn.textContent = 'Criar outro post';
+        }
+    }
+
+    if (!postsGrid || !emptyState) return;
+
+    if (userPosts.length === 0) {
+        emptyState.style.display = 'flex';
+        postsGrid.style.display = 'none';
+        postsGrid.innerHTML = '';
+    } else {
+        emptyState.style.display = 'none';
+        postsGrid.style.display = 'grid';
+
+        postsGrid.innerHTML = userPosts.map(post => {
+            const isVideo = post.type === 'video';
+            return `
+                <div class="post-grid-item" data-id="${post.id}">
+                    <button type="button" class="btn-delete-post" onclick="deletePost('${post.id}')" title="Excluir publicação">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColo
