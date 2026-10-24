@@ -18,7 +18,6 @@
             justify-content: space-between;
         }
 
-        /* Topo: Fechar (X) + Abas (POST, STORY, VIRAIS) + Botão Avançar Fixo */
         .create-header {
             display: flex;
             align-items: center;
@@ -62,7 +61,6 @@
             border-bottom: 2px solid #ffffff;
         }
 
-        /* Botão Avançar Fixo no Canto Superior Direito */
         .btn-advance-top {
             background: transparent;
             color: #8e8e93;
@@ -76,7 +74,7 @@
         }
 
         .btn-advance-top.active {
-            color: #00ff88; /* Destaque verde Koneat */
+            color: #00ff88;
             cursor: pointer;
         }
 
@@ -84,7 +82,6 @@
             transform: scale(0.95);
         }
 
-        /* Barra Galeria + Controles */
         .gallery-controls-bar {
             display: flex;
             align-items: center;
@@ -124,7 +121,6 @@
             cursor: pointer;
         }
 
-        /* Área Central Vazia de Prévia */
         .create-preview-area {
             flex: 1;
             display: flex;
@@ -143,10 +139,9 @@
         .create-preview-area img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
-        /* Modal/Tela de Legenda */
         .caption-modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -208,7 +203,6 @@
 
         .caption-textarea::placeholder { color: #8e8e93; }
 
-        /* Modal de Carregamento ao Postar */
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -257,24 +251,20 @@
 </head>
 <body class="dark-create-theme">
 
-    <!-- Topo -->
     <header class="create-header">
         <a href="./passo1.html" class="btn-close" aria-label="Fechar">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </a>
 
-        <!-- Abas POST / STORY / VIRAIS -->
         <div class="type-selector-tabs">
             <button type="button" class="type-tab active" data-type="post">POST</button>
             <button type="button" class="type-tab" data-type="story">STORY</button>
             <button type="button" class="type-tab" data-type="virais">VIRAIS</button>
         </div>
 
-        <!-- Botão Avançar Fixo no Canto Superior Direito -->
         <button type="button" class="btn-advance-top" id="btnAdvance">Avançar</button>
     </header>
 
-    <!-- Barra de Controle de Galeria -->
     <div class="gallery-controls-bar">
         <button type="button" class="btn-gallery-dropdown">
             Galeria
@@ -291,12 +281,10 @@
         </div>
     </div>
 
-    <!-- Central Vazia de Prévia -->
     <main class="create-preview-area" id="previewContainer">
         <span id="previewText">Crie um post</span>
     </main>
 
-    <!-- Modal de Legenda -->
     <div class="caption-modal" id="captionModal">
         <div class="caption-header">
             <button type="button" class="btn-back-caption" id="closeModalBtn">Voltar</button>
@@ -309,7 +297,6 @@
         </div>
     </div>
 
-    <!-- Caixa de Carregamento -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="spinner"></div>
@@ -317,7 +304,6 @@
         </div>
     </div>
 
-    <!-- Input Oculto de Arquivo -->
     <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;">
 
     <script>
@@ -360,10 +346,11 @@
             const fileUrl = URL.createObjectURL(file);
             const isVideo = file.type.startsWith('video');
 
+            // PRÉVIA COM SOM ATIVADO E CONTROLES VISÍVEIS
             if (isVideo) {
-                previewContainer.innerHTML = `<video src="${fileUrl}" autoplay loop muted playsinline></video>`;
+                previewContainer.innerHTML = `<video src="${fileUrl}" controls autoplay playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>`;
             } else {
-                previewContainer.innerHTML = `<img src="${fileUrl}" />`;
+                previewContainer.innerHTML = `<img src="${fileUrl}" style="width: 100%; height: 100%; object-fit: contain;" />`;
             }
 
             mediaFile = { url: fileUrl, type: isVideo ? 'video' : 'image' };
@@ -383,9 +370,7 @@
         publishFinalBtn.addEventListener('click', () => {
             if (!mediaFile) return;
 
-            // Ativa o carregamento estilo Instagram
             loadingOverlay.classList.add('show');
-
             const caption = postCaptionInput.value.trim();
 
             setTimeout(() => {
