@@ -308,7 +308,8 @@
 
     <script>
         let selectedType = 'post';
-        let mediaFile = null;
+        let mediaDataUrl = null;
+        let mediaType = null;
 
         const tabs = document.querySelectorAll('.type-tab');
         const previewText = document.getElementById('previewText');
@@ -339,26 +340,31 @@
         previewContainer.addEventListener('click', () => fileInput.click());
         openCameraBtn.addEventListener('click', () => fileInput.click());
 
+        // Conversão robusta via FileReader para Base64 permanente no LocalStorage
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
-            const fileUrl = URL.createObjectURL(file);
-            const isVideo = file.type.startsWith('video');
+            const reader = new FileReader();
+            reader.onload = function(uploadEvent) {
+                mediaDataUrl = uploadEvent.target.result;
+                const isVideo = file.type.startsWith('video');
+                mediaType = isVideo ? 'video' : 'image';
 
-            if (isVideo) {
-                previewContainer.innerHTML = `<video src="${fileUrl}" controls autoplay playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>`;
-            } else {
-                previewContainer.innerHTML = `<img src="${fileUrl}" style="width: 100%; height: 100%; object-fit: contain;" />`;
-            }
+                if (isVideo) {
+                    previewContainer.innerHTML = `<video src="${mediaDataUrl}" controls autoplay playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>`;
+                } else {
+                    previewContainer.innerHTML = `<img src="${mediaDataUrl}" style="width: 100%; height: 100%; object-fit: contain;" />`;
+                }
 
-            mediaFile = { url: fileUrl, type: isVideo ? 'video' : 'image' };
-            modalThumbnail.src = fileUrl;
-            btnAdvance.classList.add('active');
+                modalThumbnail.src = mediaDataUrl;
+                btnAdvance.classList.add('active');
+            };
+            reader.readAsDataURL(file);
         });
 
         btnAdvance.addEventListener('click', () => {
-            if (!mediaFile) return;
+            if (!mediaDataUrl) return;
             captionModal.classList.add('show');
         });
 
@@ -367,7 +373,7 @@
         });
 
         publishFinalBtn.addEventListener('click', () => {
-            if (!mediaFile) return;
+            if (!mediaDataUrl) return;
 
             loadingOverlay.classList.add('show');
             const caption = postCaptionInput.value.trim();
@@ -376,26 +382,26 @@
             setTimeout(() => {
                 const postData = {
                     id: uniqueId,
-                    url: mediaFile.url,
-                    type: mediaFile.type,
+                    url: mediaDataUrl,
+                    type: mediaType,
                     author: 'Eributtler',
                     caption: caption
                 };
 
-                // 1. Salva sempre no Perfil (passo1.html - aba Todos)
+                // 1. Salva no perfil do usuário (passo1.html - aba Todos)
                 const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
                 userPosts.unshift(postData);
                 localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
 
-                // 2. Se for vídeo ou postado na aba virais, salva também no Feed Viral (passo2.html)
-                if (mediaFile.type === 'video' || selectedType === 'virais') {
+                // 2. Se for vídeo ou postado na aba de virais, salva no feed viral (passo2.html)
+                if (mediaType === 'video' || selectedType === 'virais') {
                     const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
                     currentVirais.unshift(postData);
                     localStorage.setItem('koneat_virais_feed', JSON.stringify(currentVirais));
                 }
 
-                // Redireciona para o feed viral ou perfil conforme o tipo
-                if (mediaFile.type === 'video' || selectedType === 'virais') {
+                // Redireciona para o passo2 se for vídeo/viral ou passo1 se for foto de post/story
+                if (mediaType === 'video' || selectedType === 'virais') {
                     window.location.href = './passo2.html';
                 } else {
                     window.location.href = './passo1.html';
@@ -404,4 +410,5 @@
         });
     </script>
 </body>
-</html>
+    </html>
+    
