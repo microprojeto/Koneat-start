@@ -18,13 +18,15 @@
             justify-content: space-between;
         }
 
-        /* Topo: Fechar (X) + Seleção de Tipos (POST, STORY, VIRAIS) */
+        /* Topo: Fechar (X) + Abas (POST, STORY, VIRAIS) + Botão Avançar Fixo */
         .create-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 16px 20px;
-            z-index: 10;
+            z-index: 20;
+            background: #000000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .btn-close {
@@ -39,14 +41,14 @@
 
         .type-selector-tabs {
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
 
         .type-tab {
             background: none;
             border: none;
             color: #8e8e93;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             text-transform: uppercase;
@@ -60,12 +62,35 @@
             border-bottom: 2px solid #ffffff;
         }
 
-        /* Subheader: Galeria + Múltipla escolha e Câmera */
+        /* Botão Avançar Fixo no Canto Superior Direito */
+        .btn-advance-top {
+            background: transparent;
+            color: #8e8e93;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: not-allowed;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-advance-top.active {
+            color: #00ff88; /* Destaque verde Koneat */
+            cursor: pointer;
+        }
+
+        .btn-advance-top.active:active {
+            transform: scale(0.95);
+        }
+
+        /* Barra Galeria + Controles */
         .gallery-controls-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 12px 20px;
+            z-index: 10;
         }
 
         .btn-gallery-dropdown {
@@ -99,44 +124,134 @@
             cursor: pointer;
         }
 
-        /* Área Central Vazia */
+        /* Área Central Vazia de Prévia */
         .create-preview-area {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #8e8e93;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-        }
-
-        /* Rodapé: Botão Avançar */
-        .create-footer-bar {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+            position: relative;
+            overflow: hidden;
             background: #000000;
         }
 
-        .btn-advance {
-            width: 85%;
-            max-width: 320px;
-            height: 44px;
-            background: #333333;
-            color: #8e8e93;
-            border: none;
-            border-radius: 22px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: not-allowed;
-            transition: 0.2s;
+        .create-preview-area video, 
+        .create-preview-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .btn-advance.active {
-            background: #ffffff;
-            color: #000000;
+        /* Modal/Tela de Legenda */
+        .caption-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .caption-modal.show { display: flex; }
+
+        .caption-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .caption-header h2 { font-size: 18px; margin: 0; font-weight: 700; }
+
+        .btn-back-caption, .btn-publish-final {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
+        }
+
+        .btn-publish-final { color: #00ff88; }
+
+        .caption-body {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .caption-thumbnail {
+            width: 84px;
+            height: 84px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #222222;
+        }
+
+        .caption-textarea {
+            flex: 1;
+            height: 120px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .caption-textarea::placeholder { color: #8e8e93; }
+
+        /* Modal de Carregamento ao Postar */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay.show { display: flex; }
+
+        .loading-box {
+            background: #18181b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 28px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #00ff88;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -155,7 +270,8 @@
             <button type="button" class="type-tab" data-type="virais">VIRAIS</button>
         </div>
 
-        <div style="width: 22px;"></div> <!-- Spacer para alinhamento das abas -->
+        <!-- Botão Avançar Fixo no Canto Superior Direito -->
+        <button type="button" class="btn-advance-top" id="btnAdvance">Avançar</button>
     </header>
 
     <!-- Barra de Controle de Galeria -->
@@ -180,10 +296,26 @@
         <span id="previewText">Crie um post</span>
     </main>
 
-    <!-- Rodapé -->
-    <footer class="create-footer-bar">
-        <button type="button" class="btn-advance" id="btnAdvance">Avançar</button>
-    </footer>
+    <!-- Modal de Legenda -->
+    <div class="caption-modal" id="captionModal">
+        <div class="caption-header">
+            <button type="button" class="btn-back-caption" id="closeModalBtn">Voltar</button>
+            <h2>Nova publicação</h2>
+            <button type="button" class="btn-publish-final" id="publishFinalBtn">Compartilhar</button>
+        </div>
+        <div class="caption-body">
+            <img id="modalThumbnail" class="caption-thumbnail" src="" alt="Thumbnail">
+            <textarea id="postCaptionInput" class="caption-textarea" placeholder="Escreva uma legenda..."></textarea>
+        </div>
+    </div>
+
+    <!-- Caixa de Carregamento -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <span class="loading-text">Sua publicação está sendo postada</span>
+        </div>
+    </div>
 
     <!-- Input Oculto de Arquivo -->
     <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;">
@@ -199,7 +331,13 @@
         const btnAdvance = document.getElementById('btnAdvance');
         const openCameraBtn = document.getElementById('openCameraBtn');
 
-        // Alternar abas (POST, STORY, VIRAIS)
+        const captionModal = document.getElementById('captionModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const publishFinalBtn = document.getElementById('publishFinalBtn');
+        const modalThumbnail = document.getElementById('modalThumbnail');
+        const postCaptionInput = document.getElementById('postCaptionInput');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
@@ -212,7 +350,6 @@
             });
         });
 
-        // Clique na área central ou no ícone da câmera para abrir a galeria
         previewContainer.addEventListener('click', () => fileInput.click());
         openCameraBtn.addEventListener('click', () => fileInput.click());
 
@@ -224,34 +361,58 @@
             const isVideo = file.type.startsWith('video');
 
             if (isVideo) {
-                previewContainer.innerHTML = `<video src="${fileUrl}" controls style="max-width: 100%; max-height: 100%; object-fit: contain;"></video>`;
+                previewContainer.innerHTML = `<video src="${fileUrl}" autoplay loop muted playsinline></video>`;
             } else {
-                previewContainer.innerHTML = `<img src="${fileUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" />`;
+                previewContainer.innerHTML = `<img src="${fileUrl}" />`;
             }
 
             mediaFile = { url: fileUrl, type: isVideo ? 'video' : 'image' };
+            modalThumbnail.src = fileUrl;
             btnAdvance.classList.add('active');
         });
 
-        // Publicar e Redirecionar
         btnAdvance.addEventListener('click', () => {
             if (!mediaFile) return;
+            captionModal.classList.add('show');
+        });
 
-            if (selectedType === 'virais' || mediaFile.type === 'video') {
-                // Se for vídeo ou marcado como VIRAIS, redireciona para a tela de vídeos (passo2.html)
-                const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
-                currentVirais.unshift({ id: 'video_' + Date.now(), url: mediaFile.url, author: 'Koneat User' });
-                localStorage.setItem('koneat_virais_feed', JSON.stringify(currentVirais));
-                window.location.href = './passo2.html';
-            } else {
-                // Se for foto/imagem, redireciona para o perfil do usuário (passo1.html)
-                const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
-                userPosts.unshift({ id: 'post_' + Date.now(), url: mediaFile.url, type: mediaFile.type });
-                localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
-                window.location.href = './passo1.html';
-            }
+        closeModalBtn.addEventListener('click', () => {
+            captionModal.classList.remove('show');
+        });
+
+        publishFinalBtn.addEventListener('click', () => {
+            if (!mediaFile) return;
+
+            // Ativa o carregamento estilo Instagram
+            loadingOverlay.classList.add('show');
+
+            const caption = postCaptionInput.value.trim();
+
+            setTimeout(() => {
+                if (selectedType === 'virais' || mediaFile.type === 'video') {
+                    const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
+                    currentVirais.unshift({ 
+                        id: 'video_' + Date.now(), 
+                        url: mediaFile.url, 
+                        author: 'Eributtler',
+                        caption: caption 
+                    });
+                    localStorage.setItem('koneat_virais_feed', JSON.stringify(currentVirais));
+                    window.location.href = './passo2.html';
+                } else {
+                    const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
+                    userPosts.unshift({ 
+                        id: 'post_' + Date.now(), 
+                        url: mediaFile.url, 
+                        type: mediaFile.type,
+                        caption: caption 
+                    });
+                    localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
+                    window.location.href = './passo1.html';
+                }
+            }, 1800);
         });
     </script>
 </body>
-  </html>
-                                                                                                                                          
+    </html>
+    
