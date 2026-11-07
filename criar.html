@@ -62,19 +62,20 @@
         }
 
         .btn-advance-top {
-            background: transparent;
+            background: #262626;
             color: #8e8e93;
             border: none;
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             cursor: not-allowed;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
             transition: 0.2s;
         }
 
         .btn-advance-top.active {
-            color: #00ff88;
+            background: #ffffff;
+            color: #000000;
             cursor: pointer;
         }
 
@@ -124,15 +125,25 @@
         .create-preview-area {
             flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 16px;
             color: #8e8e93;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             background: #000000;
+        }
+
+        .preview-placeholder-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
         }
 
         .create-preview-area video, 
@@ -140,6 +151,9 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .caption-modal {
@@ -258,8 +272,8 @@
 
         <div class="type-selector-tabs">
             <button type="button" class="type-tab active" data-type="post">POST</button>
-            <button type="button" class="type-tab" data-type="story">STORY</button>
-            <button type="button" class="type-tab" data-type="virais">VIRAIS</button>
+            <button type="button" class="type-tab" data-type="video">VÍDEO</button>
+            <button type="button" class="type-tab" data-type="viral">VIRAL</button>
         </div>
 
         <button type="button" class="btn-advance-top" id="btnAdvance">Avançar</button>
@@ -275,14 +289,18 @@
             <button type="button" class="icon-circle-btn" aria-label="Seleção Múltipla">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M9 3v18"></path></svg>
             </button>
-            <button type="button" class="icon-circle-btn" id="openCameraBtn" aria-label="Câmera">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-            </button>
         </div>
     </div>
 
     <main class="create-preview-area" id="previewContainer">
-        <span id="previewText">Crie um post</span>
+        <div class="preview-placeholder-content" id="placeholderContent">
+            <!-- SVG da Câmera reduzido conforme solicitado -->
+            <svg width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            <span id="previewText">Capture o momento com um amigo</span>
+        </div>
     </main>
 
     <div class="caption-modal" id="captionModal">
@@ -315,8 +333,8 @@
         const previewText = document.getElementById('previewText');
         const fileInput = document.getElementById('fileInput');
         const previewContainer = document.getElementById('previewContainer');
+        const placeholderContent = document.getElementById('placeholderContent');
         const btnAdvance = document.getElementById('btnAdvance');
-        const openCameraBtn = document.getElementById('openCameraBtn');
 
         const captionModal = document.getElementById('captionModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
@@ -331,16 +349,18 @@
                 tab.classList.add('active');
                 selectedType = tab.getAttribute('data-type');
                 
-                if (selectedType === 'post') previewText.textContent = 'Crie um post';
-                if (selectedType === 'story') previewText.textContent = 'Crie um story';
-                if (selectedType === 'virais') previewText.textContent = 'Crie um vídeo viral';
+                if (selectedType === 'post') previewText.textContent = 'Capture o momento com um amigo';
+                if (selectedType === 'video') previewText.textContent = 'Selecione um vídeo (até 3 min)';
+                if (selectedType === 'viral') previewText.textContent = 'Crie um vídeo viral (até 1m30s)';
             });
         });
 
-        previewContainer.addEventListener('click', () => fileInput.click());
-        openCameraBtn.addEventListener('click', () => fileInput.click());
+        previewContainer.addEventListener('click', (e) => {
+            if (e.target === previewContainer || placeholderContent.contains(e.target)) {
+                fileInput.click();
+            }
+        });
 
-        // Converte o arquivo para Base64 de forma limpa
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -351,10 +371,23 @@
                 const isVideo = file.type.startsWith('video');
                 mediaType = isVideo ? 'video' : 'image';
 
+                // Remove o placeholder e insere a mídia preenchendo a área
+                if (placeholderContent) placeholderContent.remove();
+
+                const existingMedia = previewContainer.querySelector('video, img');
+                if (existingMedia) existingMedia.remove();
+
                 if (isVideo) {
-                    previewContainer.innerHTML = `<video src="${mediaDataUrl}" controls autoplay playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>`;
+                    const videoEl = document.createElement('video');
+                    videoEl.src = mediaDataUrl;
+                    videoEl.controls = true;
+                    videoEl.autoplay = true;
+                    videoEl.playsInline = true;
+                    previewContainer.appendChild(videoEl);
                 } else {
-                    previewContainer.innerHTML = `<img src="${mediaDataUrl}" style="width: 100%; height: 100%; object-fit: contain;" />`;
+                    const imgEl = document.createElement('img');
+                    imgEl.src = mediaDataUrl;
+                    previewContainer.appendChild(imgEl);
                 }
 
                 modalThumbnail.src = mediaDataUrl;
@@ -372,7 +405,6 @@
             captionModal.classList.remove('show');
         });
 
-        // Salvamento seguro e redirecionamento direto sem travar o carregamento
         publishFinalBtn.addEventListener('click', () => {
             if (!mediaDataUrl) return;
 
@@ -389,13 +421,11 @@
                     caption: caption
                 };
 
-                // 1. Salva no perfil (passo1.html)
                 const userPosts = JSON.parse(localStorage.getItem('koneat_user_posts') || '[]');
                 userPosts.unshift(postData);
                 localStorage.setItem('koneat_user_posts', JSON.stringify(userPosts));
 
-                // 2. Se for vídeo ou criado na aba virais, salva também no feed viral (passo2.html)
-                if (mediaType === 'video' || selectedType === 'virais') {
+                if (mediaType === 'video' || selectedType === 'viral') {
                     const currentVirais = JSON.parse(localStorage.getItem('koneat_virais_feed') || '[]');
                     currentVirais.unshift(postData);
                     localStorage.setItem('koneat_virais_feed', JSON.stringify(currentVirais));
@@ -403,8 +433,7 @@
 
                 loadingOverlay.classList.remove('show');
 
-                // Redireciona para o destino correto
-                if (mediaType === 'video' || selectedType === 'virais') {
+                if (mediaType === 'video' || selectedType === 'viral') {
                     window.location.href = './passo2.html';
                 } else {
                     window.location.href = './passo1.html';
@@ -413,5 +442,5 @@
         });
     </script>
 </body>
-        </html>
-        
+                </html>
+                
